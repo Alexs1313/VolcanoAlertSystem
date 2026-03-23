@@ -40,7 +40,7 @@ const volcLertOnboardingData = [
   },
   {
     id: 5,
-    image: require('../../elements/images/volclertsyon4.png'),
+    image: require('../../elements/images/volclertsyon5.png'),
     title: 'Start Exploring',
     buttonText: 'Get Started',
     description:

@@ -30,7 +30,9 @@ const Volclertsysettngs = () => {
   };
 
   const volcLertHandleShareMap = () => {
-    Linking.openURL('');
+    Linking.openURL(
+      'https://apps.apple.com/us/app/volcanoscoln-system/id6760992647',
+    );
   };
 
   const volcLertToggleBackgroundMusic = async (selectedValue: boolean) => {

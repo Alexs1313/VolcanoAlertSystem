@@ -18,7 +18,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 
 type volcLertMapVolcanoType = {
@@ -26,6 +26,10 @@ type volcLertMapVolcanoType = {
   name: string;
   latitude: number;
   longitude: number;
+};
+
+type volcLertMapRouteParams = {
+  volcLertTargetVolcano?: volcLertMapVolcanoType;
 };
 
 const volcLertMapVolcanoes: volcLertMapVolcanoType[] = [
@@ -66,8 +70,11 @@ const volcLertMapVolcanoes: volcLertMapVolcanoType[] = [
 ];
 
 const Volclertsymap = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
+  const route = useRoute();
+  const { volcLertTargetVolcano } = (route.params as volcLertMapRouteParams) || {};
   const volcLertMapRef = useRef<MapView | null>(null);
+  const volcLertMarkerRefs = useRef<Record<string, any>>({});
   const [volcLertSearchValue, setVolcLertSearchValue] = useState('');
   const [volcLertLastRandomVolcanoId, setVolcLertLastRandomVolcanoId] =
     useState<string | null>(null);
@@ -94,6 +101,28 @@ const Volclertsymap = () => {
   );
 
   useEffect(() => {
+    if (volcLertTargetVolcano) {
+      setVolcLertSearchValue(volcLertTargetVolcano.name);
+      volcLertMapRef.current?.animateToRegion(
+        {
+          latitude: volcLertTargetVolcano.latitude,
+          longitude: volcLertTargetVolcano.longitude,
+          latitudeDelta: 6,
+          longitudeDelta: 6,
+        },
+        600,
+      );
+
+      // Wait for map animation/render and then focus the exact marker.
+      const volcLertMarkerFocusTimeout = setTimeout(() => {
+        volcLertMarkerRefs.current[volcLertTargetVolcano.id]?.showCallout();
+      }, 700);
+
+      return () => {
+        clearTimeout(volcLertMarkerFocusTimeout);
+      };
+    }
+
     if (!volcLertVisibleVolcanoes.length) {
       return;
     }
@@ -108,7 +137,7 @@ const Volclertsymap = () => {
       },
       500,
     );
-  }, [volcLertVisibleVolcanoes]);
+  }, [volcLertTargetVolcano, volcLertVisibleVolcanoes]);
 
   const volcLertHandleBack = () => {
     navigation.goBack();
@@ -159,6 +188,9 @@ const Volclertsymap = () => {
         {volcLertVisibleVolcanoes.map(volcLertVolcano => (
           <Marker
             key={volcLertVolcano.id}
+            ref={volcLertMarker => {
+              volcLertMarkerRefs.current[volcLertVolcano.id] = volcLertMarker;
+            }}
             coordinate={{
               latitude: volcLertVolcano.latitude,
               longitude: volcLertVolcano.longitude,

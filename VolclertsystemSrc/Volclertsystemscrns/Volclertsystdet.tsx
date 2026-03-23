@@ -7,7 +7,6 @@ import React from 'react';
 import {
   Alert,
   Image,
-  Linking,
   Share,
   StyleSheet,
   Text,
@@ -20,7 +19,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import MapView, { Marker } from 'react-native-maps';
 
 const Volclertsystdet = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const route = useRoute();
   const { volcLertVolcano } = route.params as {
     volcLertVolcano: volcLertVolcanoType;
@@ -34,17 +33,14 @@ const Volclertsystdet = () => {
     navigation.navigate('Volclertsysettngs' as never);
   };
 
-  const volcLertHandleOpenList = () => {
-    navigation.goBack();
-  };
-
   const volcLertHandleOpenMap = () => {
-    const volcLertMapQuery = encodeURIComponent(
-      `${volcLertVolcano.name} ${volcLertVolcano.coordinates}`,
-    );
-    const volcLertMapUrl = `https://www.google.com/maps/search/?api=1&query=${volcLertMapQuery}`;
-    Linking.openURL(volcLertMapUrl).catch(() => {
-      Alert.alert('Error', 'Could not open map.');
+    navigation.navigate('Volclertsymap', {
+      volcLertTargetVolcano: {
+        id: volcLertVolcano.id,
+        name: volcLertVolcano.name,
+        latitude: volcLertVolcano.latitude,
+        longitude: volcLertVolcano.longitude,
+      },
     });
   };
 

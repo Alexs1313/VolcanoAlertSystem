@@ -168,7 +168,7 @@ const Volclertsystlist = () => {
   const navigation = useNavigation<any>();
   const [volcLertSearchValue, setVolcLertSearchValue] = useState('');
   const [volcLertSelectedFilter, setVolcLertSelectedFilter] =
-    useState<volcLertFilterStatus>('active');
+    useState<volcLertFilterStatus>('all');
   const [volcLertIsFilterOpen, setVolcLertIsFilterOpen] = useState(false);
 
   const volcLertFilteredVolcanoes = useMemo(() => {
@@ -689,7 +689,7 @@ const Volclertsystlist = () => {
   const navigation = useNavigation();
   const [volcLertSearchValue, setVolcLertSearchValue] = useState('');
   const [volcLertSelectedFilter, setVolcLertSelectedFilter] =
-    useState<volcLertFilterStatus>('active');
+    useState<volcLertFilterStatus>('all');
   const [volcLertIsFilterOpen, setVolcLertIsFilterOpen] = useState(false);
 
   const volcLertFilteredVolcanoes = useMemo(() => {
@@ -1119,7 +1119,7 @@ const Volclertsystlist = () => {
   const navigation = useNavigation();
   const [volcLertSearchValue, setVolcLertSearchValue] = useState('');
   const [volcLertSelectedFilter, setVolcLertSelectedFilter] =
-    useState<volcLertFilterStatus>('active');
+    useState<volcLertFilterStatus>('all');
   const [volcLertIsFilterOpen, setVolcLertIsFilterOpen] = useState(false);
   const [volcLertExpandedVolcanoId, setVolcLertExpandedVolcanoId] = useState<
     string | null
