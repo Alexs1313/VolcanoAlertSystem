@@ -61,7 +61,16 @@ const Volclertsystonbrdn = () => {
   return (
     <Volclertsystlay>
       <View style={volcLertStyles.volcLertContainer}>
-        <Image source={volcLertOnboardingData[volcLertCurrIndex].image} />
+        <Image
+          source={volcLertOnboardingData[volcLertCurrIndex].image}
+          style={
+            volcLertCurrIndex === 0 && {
+              width: 200,
+              height: 200,
+              borderRadius: 52,
+            }
+          }
+        />
 
         <Text style={volcLertStyles.volcLertTitle}>
           {volcLertOnboardingData[volcLertCurrIndex].title}

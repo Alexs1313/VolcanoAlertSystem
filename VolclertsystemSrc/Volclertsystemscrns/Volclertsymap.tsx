@@ -18,7 +18,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 
 type volcLertMapVolcanoType = {
@@ -72,7 +76,8 @@ const volcLertMapVolcanoes: volcLertMapVolcanoType[] = [
 const Volclertsymap = () => {
   const navigation = useNavigation<any>();
   const route = useRoute();
-  const { volcLertTargetVolcano } = (route.params as volcLertMapRouteParams) || {};
+  const { volcLertTargetVolcano } =
+    (route.params as volcLertMapRouteParams) || {};
   const volcLertMapRef = useRef<MapView | null>(null);
   const volcLertMarkerRefs = useRef<Record<string, any>>({});
   const [volcLertSearchValue, setVolcLertSearchValue] = useState('');
@@ -199,6 +204,7 @@ const Volclertsymap = () => {
           >
             <Image
               source={require('../../elements/images/volclertsysmappin.png')}
+              style={{ width: 50, height: 34, resizeMode: 'contain' }}
             />
           </Marker>
         ))}

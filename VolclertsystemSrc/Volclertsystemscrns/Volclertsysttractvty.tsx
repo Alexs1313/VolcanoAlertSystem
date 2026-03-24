@@ -164,7 +164,7 @@ const Volclertsysttractvty = () => {
 
   const volcLertHandleMissingOptionFeedback = () => {
     if (volcLertVibration) {
-      Vibration.vibrate(30);
+      Vibration.vibrate(130);
     }
 
     Animated.sequence([

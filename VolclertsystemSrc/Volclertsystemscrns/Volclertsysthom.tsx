@@ -538,12 +538,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'flex-end',
     bottom: 0,
-    paddingVertical: 10,
+    paddingVertical: 7,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
   volcLertMenuCardTopRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 4,
     padding: 20,
   },
   volcLertMenuCardIcon: {
@@ -551,15 +553,13 @@ const styles = StyleSheet.create({
   },
   volcLertMenuCardTitle: {
     color: '#fff',
-    fontSize: 16,
-    lineHeight: 20,
+    fontSize: 14,
     fontWeight: '700',
     flex: 1,
   },
   volcLertMenuCardDescription: {
     color: '#EDDDCF',
     fontSize: 15,
-    lineHeight: 22,
     textAlign: 'center',
     marginBottom: 2,
   },
