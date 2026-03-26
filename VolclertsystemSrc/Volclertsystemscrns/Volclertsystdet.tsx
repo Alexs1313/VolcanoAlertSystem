@@ -3,7 +3,7 @@
 import Volclertsystlay from '../Volclertsystemcmpnt/Volclertsystlay';
 
 import type { volcLertVolcanoType } from './Volclertsystlist';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Alert,
   Image,
@@ -13,10 +13,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import MapView, { Marker } from 'react-native-maps';
+
+const volcLertSavedVolcanoesStorageKey = 'volcLertSavedVolcanoIds';
 
 const Volclertsystdet = () => {
   const navigation = useNavigation<any>();
@@ -24,6 +31,27 @@ const Volclertsystdet = () => {
   const { volcLertVolcano } = route.params as {
     volcLertVolcano: volcLertVolcanoType;
   };
+  const [volcLertIsSaved, setVolcLertIsSaved] = useState(false);
+
+  const volcLertLoadSavedState = useCallback(async () => {
+    try {
+      const volcLertSavedIdsRaw = await AsyncStorage.getItem(
+        volcLertSavedVolcanoesStorageKey,
+      );
+      const volcLertSavedIds: string[] = volcLertSavedIdsRaw
+        ? JSON.parse(volcLertSavedIdsRaw)
+        : [];
+      setVolcLertIsSaved(volcLertSavedIds.includes(volcLertVolcano.id));
+    } catch {
+      setVolcLertIsSaved(false);
+    }
+  }, [volcLertVolcano.id]);
+
+  useFocusEffect(
+    useCallback(() => {
+      volcLertLoadSavedState();
+    }, [volcLertLoadSavedState]),
+  );
 
   const volcLertHandleBack = () => {
     navigation.goBack();
@@ -51,6 +79,34 @@ const Volclertsystdet = () => {
     }).catch(() => {
       Alert.alert('Error', 'Could not open share dialog.');
     });
+  };
+
+  const volcLertHandleToggleSave = async () => {
+    try {
+      const volcLertSavedIdsRaw = await AsyncStorage.getItem(
+        volcLertSavedVolcanoesStorageKey,
+      );
+      const volcLertSavedIds: string[] = volcLertSavedIdsRaw
+        ? JSON.parse(volcLertSavedIdsRaw)
+        : [];
+
+      const volcLertUpdatedSavedIds = volcLertSavedIds.includes(
+        volcLertVolcano.id,
+      )
+        ? volcLertSavedIds.filter(
+            volcLertSavedVolcanoId =>
+              volcLertSavedVolcanoId !== volcLertVolcano.id,
+          )
+        : [...volcLertSavedIds, volcLertVolcano.id];
+
+      await AsyncStorage.setItem(
+        volcLertSavedVolcanoesStorageKey,
+        JSON.stringify(volcLertUpdatedSavedIds),
+      );
+      setVolcLertIsSaved(volcLertUpdatedSavedIds.includes(volcLertVolcano.id));
+    } catch {
+      Alert.alert('Error', 'Could not save volcano.');
+    }
   };
 
   return (
@@ -125,6 +181,23 @@ const Volclertsystdet = () => {
                     >
                       <Image
                         source={require('../../elements/images/volclertsyoshre.png')}
+                      />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={[
+                        styles.volcLertSaveRoundButton,
+                        volcLertIsSaved && styles.volcLertSaveRoundButtonActive,
+                      ]}
+                      activeOpacity={0.85}
+                      onPress={volcLertHandleToggleSave}
+                    >
+                      <Image
+                        source={
+                          volcLertIsSaved
+                            ? require('../../elements/images/volclertsmsaved.png')
+                            : require('../../elements/images/volclertsmasv.png')
+                        }
                       />
                     </TouchableOpacity>
                   </View>
@@ -283,6 +356,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#E26A35',
+  },
+  volcLertSaveRoundButton: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E26A35',
+    paddingHorizontal: 12,
+  },
+  volcLertSaveRoundButtonActive: {
+    backgroundColor: '#E26A35',
+  },
+  volcLertSaveRoundButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '700',
   },
   volcLertCardInfoText: {
     color: '#fff',

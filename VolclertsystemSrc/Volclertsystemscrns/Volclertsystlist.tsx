@@ -3,7 +3,7 @@
 import LinearGradient from 'react-native-linear-gradient';
 
 import Volclertsystlay from '../Volclertsystemcmpnt/Volclertsystlay';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   Image,
   StyleSheet,
@@ -12,7 +12,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type volcLertVolcanoStatus = 'active' | 'dormant' | 'extinct';
 type volcLertFilterStatus = volcLertVolcanoStatus | 'all';
@@ -164,12 +165,17 @@ const volcLertFilterTitles: Record<volcLertFilterStatus, string> = {
   all: '🌋 All Volcanoes',
 };
 
+const volcLertSavedVolcanoesStorageKey = 'volcLertSavedVolcanoIds';
+
 const Volclertsystlist = () => {
   const navigation = useNavigation<any>();
   const [volcLertSearchValue, setVolcLertSearchValue] = useState('');
   const [volcLertSelectedFilter, setVolcLertSelectedFilter] =
     useState<volcLertFilterStatus>('all');
   const [volcLertIsFilterOpen, setVolcLertIsFilterOpen] = useState(false);
+  const [volcLertSavedVolcanoIds, setVolcLertSavedVolcanoIds] = useState<
+    string[]
+  >([]);
 
   const volcLertFilteredVolcanoes = useMemo(() => {
     return volcLertVolcanoes.filter(volcLertVolcano => {
@@ -182,6 +188,26 @@ const Volclertsystlist = () => {
       return volcLertMatchesStatus && volcLertMatchesSearch;
     });
   }, [volcLertSearchValue, volcLertSelectedFilter]);
+
+  const volcLertLoadSavedVolcanoIds = useCallback(async () => {
+    try {
+      const volcLertSavedIdsRaw = await AsyncStorage.getItem(
+        volcLertSavedVolcanoesStorageKey,
+      );
+      const volcLertSavedIds: string[] = volcLertSavedIdsRaw
+        ? JSON.parse(volcLertSavedIdsRaw)
+        : [];
+      setVolcLertSavedVolcanoIds(volcLertSavedIds);
+    } catch {
+      setVolcLertSavedVolcanoIds([]);
+    }
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      volcLertLoadSavedVolcanoIds();
+    }, [volcLertLoadSavedVolcanoIds]),
+  );
 
   const volcLertHandleBack = () => {
     navigation.goBack();
@@ -309,10 +335,12 @@ const Volclertsystlist = () => {
                   end={{ x: 1, y: 0 }}
                   style={styles.volcLertCard}
                 >
-                  <View style={{}}>
-                    <Text style={styles.volcLertCardTitle}>
-                      {volcLertVolcano.name}
-                    </Text>
+                  <View>
+                    <View style={styles.volcLertCardTitleRow}>
+                      <Text style={styles.volcLertCardTitle}>
+                        {volcLertVolcano.name}
+                      </Text>
+                    </View>
 
                     <View
                       style={{
@@ -339,6 +367,15 @@ const Volclertsystlist = () => {
                           </Text>
                           {volcLertVolcano.height}
                         </Text>
+
+                        {volcLertSavedVolcanoIds.includes(
+                          volcLertVolcano.id,
+                        ) && (
+                          <Image
+                            source={require('../../elements/images/volclertsmsaved.png')}
+                            style={styles.volcLertSavedIcon}
+                          />
+                        )}
                       </View>
                     </View>
                   </View>
@@ -500,6 +537,20 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginVertical: 12,
     marginBottom: 15,
+  },
+  volcLertCardTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  volcLertSavedIcon: {
+    width: 24,
+    height: 24,
+    resizeMode: 'contain',
+    position: 'absolute',
+    right: 10,
+    top: 10,
   },
   volcLertCardImage: {
     width: '100%',

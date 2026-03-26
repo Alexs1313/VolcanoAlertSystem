@@ -28,8 +28,13 @@ import LinearGradient from 'react-native-linear-gradient';
 type volcLertMapVolcanoType = {
   id: string;
   name: string;
+  location: string;
+  coordinates: string;
+  height: string;
+  description: string;
   latitude: number;
   longitude: number;
+  image: number;
 };
 
 type volcLertMapRouteParams = {
@@ -37,39 +42,113 @@ type volcLertMapRouteParams = {
 };
 
 const volcLertMapVolcanoes: volcLertMapVolcanoType[] = [
-  { id: 'etna', name: 'Mount Etna', latitude: 37.751, longitude: 14.9934 },
-  { id: 'kilauea', name: 'Kilauea', latitude: 19.421, longitude: -155.287 },
+  {
+    id: 'etna',
+    name: 'Mount Etna',
+    location: 'Sicily, Italy',
+    coordinates: '37.7510° N, 14.9934° E',
+    height: '3329 m',
+    description:
+      'Mount Etna is one of the most active volcanoes in the world and the largest active volcano in Europe.',
+    latitude: 37.751,
+    longitude: 14.9934,
+    image: require('../../elements/images/volclertsyovolc1.png'),
+  },
+  {
+    id: 'kilauea',
+    name: 'Kilauea',
+    location: 'Hawaii, United States',
+    coordinates: '19.421° N, 155.287° W',
+    height: '1247 m',
+    description:
+      'Kilauea is one of the most active volcanoes on Earth, known for continuous lava flows and lava lakes.',
+    latitude: 19.421,
+    longitude: -155.287,
+    image: require('../../elements/images/volclertsyovolc2.png'),
+  },
   {
     id: 'sakurajima',
     name: 'Sakurajima',
+    location: 'Kagoshima, Japan',
+    coordinates: '31.585° N, 130.657° E',
+    height: '1117 m',
+    description:
+      "Sakurajima is one of Japan's most active volcanoes with frequent explosive eruptions.",
     latitude: 31.585,
     longitude: 130.657,
+    image: require('../../elements/images/volclertsyovolc3.png'),
   },
-  { id: 'fuji', name: 'Mount Fuji', latitude: 35.3606, longitude: 138.7274 },
+  {
+    id: 'fuji',
+    name: 'Mount Fuji',
+    location: 'Honshu, Japan',
+    coordinates: '35.3606° N, 138.7274° E',
+    height: '3776 m',
+    description:
+      'Mount Fuji is the highest mountain in Japan and an iconic stratovolcano.',
+    latitude: 35.3606,
+    longitude: 138.7274,
+    image: require('../../elements/images/volclertsyovolc4.png'),
+  },
   {
     id: 'kilimanjaro',
     name: 'Mount Kilimanjaro',
+    location: 'Tanzania, Africa',
+    coordinates: '3.0674° S, 37.3556° E',
+    height: '5895 m',
+    description:
+      'Mount Kilimanjaro is the tallest mountain in Africa and a dormant volcano.',
     latitude: -3.0674,
     longitude: 37.3556,
+    image: require('../../elements/images/volclertsyovolc5.png'),
   },
   {
     id: 'rainier',
     name: 'Mount Rainier',
+    location: 'Washington, United States',
+    coordinates: '46.8523° N, 121.7603° W',
+    height: '4392 m',
+    description:
+      'Mount Rainier is a large stratovolcano considered potentially dangerous due to nearby population.',
     latitude: 46.8523,
     longitude: -121.7603,
+    image: require('../../elements/images/volclertsyovolc6.png'),
   },
-  { id: 'kohala', name: 'Kohala', latitude: 20.13, longitude: -155.8 },
+  {
+    id: 'kohala',
+    name: 'Kohala',
+    location: 'Hawaii, United States',
+    coordinates: '20.13° N, 155.80° W',
+    height: '1670 m',
+    description:
+      'Kohala is the oldest volcano on the island of Hawaii and is considered extinct.',
+    latitude: 20.13,
+    longitude: -155.8,
+    image: require('../../elements/images/volclertsyovolc7.png'),
+  },
   {
     id: 'arthur-seat',
     name: "Arthur's Seat",
+    location: 'Edinburgh, Scotland',
+    coordinates: '55.944° N, 3.161° W',
+    height: '251 m',
+    description:
+      "Arthur's Seat is an ancient extinct volcano located in Holyrood Park.",
     latitude: 55.944,
     longitude: -3.161,
+    image: require('../../elements/images/volclertsyovolc8.png'),
   },
   {
     id: 'thielsen',
     name: 'Mount Thielsen',
+    location: 'Oregon, United States',
+    coordinates: '43.153° N, 122.056° W',
+    height: '2799 m',
+    description:
+      'Mount Thielsen is an extinct volcano in the Cascade Range with a sharp eroded peak.',
     latitude: 43.153,
     longitude: -122.056,
+    image: require('../../elements/images/volclertsyovolc9.png'),
   },
 ];
 
@@ -81,6 +160,8 @@ const Volclertsymap = () => {
   const volcLertMapRef = useRef<MapView | null>(null);
   const volcLertMarkerRefs = useRef<Record<string, any>>({});
   const [volcLertSearchValue, setVolcLertSearchValue] = useState('');
+  const [volcLertSelectedVolcano, setVolcLertSelectedVolcano] =
+    useState<volcLertMapVolcanoType | null>(null);
   const [volcLertLastRandomVolcanoId, setVolcLertLastRandomVolcanoId] =
     useState<string | null>(null);
 
@@ -107,6 +188,13 @@ const Volclertsymap = () => {
 
   useEffect(() => {
     if (volcLertTargetVolcano) {
+      const volcLertMatchedVolcano =
+        volcLertMapVolcanoes.find(
+          volcLertVolcano => volcLertVolcano.id === volcLertTargetVolcano.id,
+        ) || null;
+      if (volcLertMatchedVolcano) {
+        setVolcLertSelectedVolcano(volcLertMatchedVolcano);
+      }
       setVolcLertSearchValue(volcLertTargetVolcano.name);
       volcLertMapRef.current?.animateToRegion(
         {
@@ -165,6 +253,7 @@ const Volclertsymap = () => {
     }
 
     setVolcLertSearchValue(volcLertRandomVolcano.name);
+    setVolcLertSelectedVolcano(volcLertRandomVolcano);
     setVolcLertLastRandomVolcanoId(volcLertRandomVolcano.id);
     volcLertMapRef.current?.animateToRegion(
       {
@@ -175,6 +264,16 @@ const Volclertsymap = () => {
       },
       600,
     );
+  };
+
+  const volcLertHandleOpenSelectedVolcanoDetails = () => {
+    if (!volcLertSelectedVolcano) {
+      return;
+    }
+
+    navigation.navigate('Volclertsystdet', {
+      volcLertVolcano: volcLertSelectedVolcano,
+    });
   };
 
   return (
@@ -201,10 +300,16 @@ const Volclertsymap = () => {
               longitude: volcLertVolcano.longitude,
             }}
             title={volcLertVolcano.name}
+            onSelect={() => {
+              setVolcLertSelectedVolcano(volcLertVolcano);
+            }}
+            onPress={() => {
+              setVolcLertSelectedVolcano(volcLertVolcano);
+            }}
           >
             <Image
               source={require('../../elements/images/volclertsysmappin.png')}
-              style={{ width: 50, height: 34, resizeMode: 'contain' }}
+              style={styles.volcLertMapPinImage}
             />
           </Marker>
         ))}
@@ -240,6 +345,48 @@ const Volclertsymap = () => {
         />
       </View>
 
+      {volcLertSelectedVolcano && (
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={volcLertHandleOpenSelectedVolcanoDetails}
+          style={styles.volcLertSelectedVolcanoCard}
+        >
+          <LinearGradient
+            colors={['#612F47', '#8A3844', '#B13D2F']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.volcLertSelectedVolcanoCardInner}
+          >
+            <Image
+              source={volcLertSelectedVolcano.image}
+              style={styles.volcLertSelectedVolcanoImage}
+            />
+            <View style={styles.volcLertSelectedVolcanoCardBody}>
+              <TouchableOpacity
+                style={styles.volcLertSelectedVolcanoCloseButton}
+                onPress={() => {
+                  setVolcLertSelectedVolcano(null);
+                }}
+                activeOpacity={0.85}
+              >
+                <Text style={styles.volcLertSelectedVolcanoCloseButtonText}>
+                  ×
+                </Text>
+              </TouchableOpacity>
+              <Text style={styles.volcLertSelectedVolcanoTitle}>
+                {volcLertSelectedVolcano.name}
+              </Text>
+              <Text style={styles.volcLertSelectedVolcanoText}>
+                {volcLertSelectedVolcano.location}
+              </Text>
+              <Text style={styles.volcLertSelectedVolcanoText}>
+                {volcLertSelectedVolcano.coordinates}
+              </Text>
+            </View>
+          </LinearGradient>
+        </TouchableOpacity>
+      )}
+
       <TouchableOpacity
         style={styles.volcLertRandomButtonWrap}
         onPress={volcLertHandleOpenRandomVolcano}
@@ -272,6 +419,11 @@ const styles = StyleSheet.create({
   volcLertMarkerIcon: {
     width: 18,
     height: 24,
+    resizeMode: 'contain',
+  },
+  volcLertMapPinImage: {
+    width: 50,
+    height: 34,
     resizeMode: 'contain',
   },
   volcLertTopActions: {
@@ -335,5 +487,57 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: '700',
+  },
+  volcLertSelectedVolcanoCard: {
+    position: 'absolute',
+    left: 22,
+    right: 22,
+    bottom: 105,
+    borderRadius: 18,
+    overflow: 'hidden',
+    minHeight: 110,
+  },
+  volcLertSelectedVolcanoCardInner: {
+    padding: 12,
+    flexDirection: 'row',
+    gap: 10,
+  },
+  volcLertSelectedVolcanoImage: {
+    width: 120,
+    height: 96,
+    borderRadius: 10,
+  },
+  volcLertSelectedVolcanoCardBody: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  volcLertSelectedVolcanoCloseButton: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: '#00000066',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  volcLertSelectedVolcanoCloseButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    lineHeight: 18,
+    fontWeight: '700',
+    bottom: 1,
+  },
+  volcLertSelectedVolcanoTitle: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 5,
+  },
+  volcLertSelectedVolcanoText: {
+    color: '#F5E1D8',
+    fontSize: 12,
+    marginBottom: 3,
   },
 });

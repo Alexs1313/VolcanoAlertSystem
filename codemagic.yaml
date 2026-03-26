@@ -4,16 +4,16 @@ workflows:
     max_build_duration: 120
     instance_type: mac_mini_m2
     integrations:
-      app_store_connect: AlrtColnAPIKey
+      app_store_connect: SystemAPIKey
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.sdlf.oeoemww.fkdd
+        bundle_identifier: com.djgoiej.itoer.uueds
       vars:
-        BUNDLE_ID: com.sdlf.oeoemww.fkdd
+        BUNDLE_ID: com.djgoiej.itoer.uueds
         XCODE_WORKSPACE: VolcanoAlertSystem.xcworkspace
         XCODE_SCHEME: VolcanoAlertSystem
-        APP_STORE_APPLE_ID: 6761054769
+        APP_STORE_APPLE_ID: 6761206867
     scripts:
       - name: Install npm dependencies
         script: |
