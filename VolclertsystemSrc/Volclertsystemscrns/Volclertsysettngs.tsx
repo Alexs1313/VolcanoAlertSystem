@@ -31,7 +31,7 @@ const Volclertsysettngs = () => {
 
   const volcLertHandleShareMap = () => {
     Linking.openURL(
-      'https://apps.apple.com/us/app/v%D0%BElcan%D0%BEscoln-s%D1%83stem/id6761054769',
+      'https://apps.apple.com/us/app/volcanoscoln-system/id6761206867',
     );
   };
 
