@@ -2,18 +2,12 @@
 
 import LinearGradient from 'react-native-linear-gradient';
 
-import Volclertsystlay from '../Volclertsystemcmpnt/Volclertsystlay';
+import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
 import React, { useCallback, useMemo, useState } from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
 
 type volcLertVolcanoStatus = 'active' | 'dormant' | 'extinct';
 type volcLertFilterStatus = volcLertVolcanoStatus | 'all';
@@ -340,6 +334,13 @@ const Volclertsystlist = () => {
                       <Text style={styles.volcLertCardTitle}>
                         {volcLertVolcano.name}
                       </Text>
+
+                      {volcLertSavedVolcanoIds.includes(volcLertVolcano.id) && (
+                        <Image
+                          source={require('../../elements/images/volclertsmsaved.png')}
+                          style={styles.volcLertSavedIcon}
+                        />
+                      )}
                     </View>
 
                     <View
@@ -367,15 +368,6 @@ const Volclertsystlist = () => {
                           </Text>
                           {volcLertVolcano.height}
                         </Text>
-
-                        {volcLertSavedVolcanoIds.includes(
-                          volcLertVolcano.id,
-                        ) && (
-                          <Image
-                            source={require('../../elements/images/volclertsmsaved.png')}
-                            style={styles.volcLertSavedIcon}
-                          />
-                        )}
                       </View>
                     </View>
                   </View>
@@ -549,8 +541,7 @@ const styles = StyleSheet.create({
     height: 24,
     resizeMode: 'contain',
     position: 'absolute',
-    right: 10,
-    top: 10,
+    right: 15,
   },
   volcLertCardImage: {
     width: '100%',

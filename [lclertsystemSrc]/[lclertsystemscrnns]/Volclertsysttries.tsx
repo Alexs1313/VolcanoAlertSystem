@@ -1,10 +1,11 @@
-import Volclertsystlay from '../Volclertsystemcmpnt/Volclertsystlay';
+import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
 import LinearGradient from 'react-native-linear-gradient';
+import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
 
 const volcLertStoriesData = [
   {

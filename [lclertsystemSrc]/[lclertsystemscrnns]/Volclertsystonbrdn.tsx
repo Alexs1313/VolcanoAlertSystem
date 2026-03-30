@@ -1,9 +1,10 @@
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
-import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Volclertsystlay from '../Volclertsystemcmpnt/Volclertsystlay';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, Image, StyleSheet, Text, View } from 'react-native';
+import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
+import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
 
 const volcLertOnboardingData = [
   {
@@ -49,13 +50,71 @@ const volcLertOnboardingData = [
 ];
 
 const Volclertsystonbrdn = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const [volcLertCurrIndex, setVolcLertCurrIndex] = useState(0);
+  const [volcLertTypedTitle, setVolcLertTypedTitle] = useState('');
+  const [volcLertTypedDescription, setVolcLertTypedDescription] = useState('');
+  const volcLertButtonScaleAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const volcLertCurrentSlide = volcLertOnboardingData[volcLertCurrIndex];
+    if (!volcLertCurrentSlide) {
+      return;
+    }
+
+    setVolcLertTypedTitle('');
+    setVolcLertTypedDescription('');
+
+    let volcLertTitleIndex = 0;
+    let volcLertDescriptionIndex = 0;
+
+    const volcLertTypingInterval = setInterval(() => {
+      if (volcLertTitleIndex < volcLertCurrentSlide.title.length) {
+        volcLertTitleIndex += 1;
+        setVolcLertTypedTitle(
+          volcLertCurrentSlide.title.slice(0, volcLertTitleIndex),
+        );
+        return;
+      }
+
+      if (volcLertDescriptionIndex < volcLertCurrentSlide.description.length) {
+        volcLertDescriptionIndex += 1;
+        setVolcLertTypedDescription(
+          volcLertCurrentSlide.description.slice(0, volcLertDescriptionIndex),
+        );
+        return;
+      }
+
+      clearInterval(volcLertTypingInterval);
+    }, 18);
+
+    return () => {
+      clearInterval(volcLertTypingInterval);
+    };
+  }, [volcLertCurrIndex]);
 
   const volcLertHandleNext = () => {
     volcLertCurrIndex < 4
       ? setVolcLertCurrIndex(volcLertCurrIndex + 1)
       : navigation.replace('Volclertsysthom' as never);
+  };
+
+  const volcLertHandlePressIn = () => {
+    Animated.spring(volcLertButtonScaleAnim, {
+      toValue: 0.96,
+      speed: 28,
+      bounciness: 0,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const volcLertHandlePressOut = () => {
+    Animated.spring(volcLertButtonScaleAnim, {
+      toValue: 1,
+      speed: 24,
+      bounciness: 6,
+      useNativeDriver: true,
+    }).start();
   };
 
   return (
@@ -72,29 +131,36 @@ const Volclertsystonbrdn = () => {
           }
         />
 
-        <Text style={volcLertStyles.volcLertTitle}>
-          {volcLertOnboardingData[volcLertCurrIndex].title}
-        </Text>
+        <Text style={volcLertStyles.volcLertTitle}>{volcLertTypedTitle}</Text>
         <Text style={volcLertStyles.volcLertDescription}>
-          {volcLertOnboardingData[volcLertCurrIndex].description}
+          {volcLertTypedDescription}
         </Text>
 
-        <TouchableOpacity
-          style={{ width: '100%' }}
-          onPress={volcLertHandleNext}
-          activeOpacity={0.8}
+        <Animated.View
+          style={[
+            volcLertStyles.volcLertButtonWrap,
+            { transform: [{ scale: volcLertButtonScaleAnim }] },
+          ]}
         >
-          <LinearGradient
-            colors={['#CF4E27', '#ED7635']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={volcLertStyles.volcLertButton}
+          <TouchableOpacity
+            style={volcLertStyles.volcLertButtonTouchArea}
+            onPress={volcLertHandleNext}
+            onPressIn={volcLertHandlePressIn}
+            onPressOut={volcLertHandlePressOut}
+            activeOpacity={1}
           >
-            <Text style={volcLertStyles.volcLertButtonText}>
-              {volcLertOnboardingData[volcLertCurrIndex].buttonText}
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
+            <LinearGradient
+              colors={['#CF4E27', '#ED7635']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={volcLertStyles.volcLertButton}
+            >
+              <Text style={volcLertStyles.volcLertButtonText}>
+                {volcLertOnboardingData[volcLertCurrIndex].buttonText}
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </Animated.View>
       </View>
     </Volclertsystlay>
   );
@@ -118,6 +184,12 @@ const volcLertStyles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     marginTop: 20,
+  },
+  volcLertButtonWrap: {
+    width: '100%',
+  },
+  volcLertButtonTouchArea: {
+    width: '100%',
   },
   volcLertButtonText: {
     color: '#fff',

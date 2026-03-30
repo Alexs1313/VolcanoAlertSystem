@@ -1,20 +1,14 @@
 // settings
 
-import { useStore } from '../Volclertsystemstorg/volclertsystcntx';
+import { useStore } from '../[lclertsystemstorggee]/volclertsystcntx';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
-import {
-  Image,
-  Linking,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Alert, Image, Linking, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-import Volclertsystlay from '../Volclertsystemcmpnt/Volclertsystlay';
+import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
+import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
 
 const Volclertsysettngs = () => {
   const navigation = useNavigation();
@@ -23,6 +17,8 @@ const Volclertsysettngs = () => {
     setVolcLertVibration,
     volcLertBackgroundMusic,
     setVolcLertBackgroundMusic,
+    volcLertDarkMapTheme,
+    setVolcLertDarkMapTheme,
   } = useStore();
 
   const volcLertHandleBack = () => {
@@ -31,7 +27,7 @@ const Volclertsysettngs = () => {
 
   const volcLertHandleShareMap = () => {
     Linking.openURL(
-      'https://apps.apple.com/us/app/volcanoscoln-system/id6761206867',
+      'https://apps.apple.com/us/app/volcanoscoln-system/id6761371181',
     );
   };
 
@@ -59,6 +55,44 @@ const Volclertsysettngs = () => {
     }
   };
 
+  const volcLertToggleDarkMapTheme = async (selectedValue: boolean) => {
+    try {
+      await AsyncStorage.setItem(
+        'toggleVolcLertDarkMapTheme',
+        JSON.stringify(selectedValue),
+      );
+      setVolcLertDarkMapTheme(selectedValue);
+    } catch (error) {
+      console.log('Error map theme', error);
+    }
+  };
+
+  const volcLertHandleDeleteAllSaved = () => {
+    Alert.alert(
+      'Delete all saved',
+      'Are you sure you want to delete all saved places and facts?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await Promise.all([
+                AsyncStorage.removeItem('volcLertSavedVolcanoIds'),
+                AsyncStorage.removeItem('volcLertSavedFacts'),
+              ]);
+              Alert.alert('Done', 'All saved data was deleted.');
+            } catch (error) {
+              console.log('Error delete saved', error);
+              Alert.alert('Error', 'Could not delete saved data.');
+            }
+          },
+        },
+      ],
+    );
+  };
+
   return (
     <Volclertsystlay>
       <View style={styles.volcLertContainer}>
@@ -78,7 +112,7 @@ const Volclertsysettngs = () => {
           end={{ x: 1, y: 0 }}
           style={styles.volcLertSettingsCard}
         >
-          <View style={{ padding: 20 }}>
+          <View style={styles.volcLertSettingsCardInner}>
             <View style={styles.volcLertSettingsRow}>
               <Text style={styles.volcLertSettingsLabel}>Vibration</Text>
               <TouchableOpacity
@@ -118,6 +152,28 @@ const Volclertsysettngs = () => {
                 )}
               </TouchableOpacity>
             </View>
+
+            <View style={styles.volcLertDivider} />
+
+            <View style={styles.volcLertSettingsRow}>
+              <Text style={styles.volcLertSettingsLabel}>Dark map</Text>
+              <TouchableOpacity
+                onPress={() =>
+                  volcLertToggleDarkMapTheme(!volcLertDarkMapTheme)
+                }
+                activeOpacity={0.8}
+              >
+                {volcLertDarkMapTheme ? (
+                  <Image
+                    source={require('../../elements/images/volclertsyswact.png')}
+                  />
+                ) : (
+                  <Image
+                    source={require('../../elements/images/volclertsyswinact.png')}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
         </LinearGradient>
 
@@ -136,6 +192,23 @@ const Volclertsysettngs = () => {
             <Image
               source={require('../../elements/images/volclertsyoshre.png')}
             />
+          </LinearGradient>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.volcLertDeleteButtonWrap}
+          onPress={volcLertHandleDeleteAllSaved}
+          activeOpacity={0.85}
+        >
+          <LinearGradient
+            colors={['#8F2B2B', '#C53D3D']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.volcLertDeleteButton}
+          >
+            <Text style={styles.volcLertDeleteButtonText}>
+              Delete all saved
+            </Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>
@@ -167,6 +240,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderRadius: 24,
   },
+  volcLertSettingsCardInner: {
+    padding: 20,
+  },
   volcLertSettingsRow: {
     minHeight: 44,
     flexDirection: 'row',
@@ -196,6 +272,20 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   volcLertShareButtonText: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  volcLertDeleteButtonWrap: {
+    marginTop: 12,
+  },
+  volcLertDeleteButton: {
+    minHeight: 56,
+    borderRadius: 999,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  volcLertDeleteButtonText: {
     color: '#fff',
     fontSize: 15,
     fontWeight: '700',

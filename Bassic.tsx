@@ -1,10 +1,10 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
-import { VolcSettingsProvider } from './VolclertsystemSrc/Volclertsystemstorg/volclertsystcntx';
-import Volclertsystemstckk from './VolclertsystemSrc/Volclertsystemroutes/Volclertsystemstckk';
+import { VolcSettingsProvider } from './[lclertsystemSrc]/[lclertsystemstorggee]/volclertsystcntx';
+import Volclertsystemstckk from './[lclertsystemSrc]/lclertsystemrouttes/Volclertsystemstckk';
 
-const App: React.FC = () => {
+const Bassic: React.FC = () => {
   return (
     <NavigationContainer>
       <VolcSettingsProvider>
@@ -14,4 +14,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Bassic;

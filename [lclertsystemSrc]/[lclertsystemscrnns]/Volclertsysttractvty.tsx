@@ -1,5 +1,5 @@
-import Volclertsystlay from '../Volclertsystemcmpnt/Volclertsystlay';
-import { useStore } from '../Volclertsystemstorg/volclertsystcntx';
+import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
+import { useStore } from '../[lclertsystemstorggee]/volclertsystcntx';
 
 import React, { useMemo, useRef, useState } from 'react';
 import {
@@ -9,12 +9,12 @@ import {
   Share,
   StyleSheet,
   Text,
-  TouchableOpacity,
   Vibration,
   View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
 
 type volcLertRiskOptionType = {
   text: string;

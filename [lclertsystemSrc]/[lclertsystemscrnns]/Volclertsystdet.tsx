@@ -1,18 +1,10 @@
 //  details screen
 
-import Volclertsystlay from '../Volclertsystemcmpnt/Volclertsystlay';
+import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
 
 import type { volcLertVolcanoType } from './Volclertsystlist';
 import React, { useCallback, useState } from 'react';
-import {
-  Alert,
-  Image,
-  Share,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Alert, Image, Share, StyleSheet, Text, View } from 'react-native';
 import {
   useFocusEffect,
   useNavigation,
@@ -20,6 +12,8 @@ import {
 } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useStore } from '../[lclertsystemstorggee]/volclertsystcntx';
+import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
 
 import MapView, { Marker } from 'react-native-maps';
 
@@ -27,6 +21,7 @@ const volcLertSavedVolcanoesStorageKey = 'volcLertSavedVolcanoIds';
 
 const Volclertsystdet = () => {
   const navigation = useNavigation<any>();
+  const { volcLertDarkMapTheme } = useStore();
   const route = useRoute();
   const { volcLertVolcano } = route.params as {
     volcLertVolcano: volcLertVolcanoType;
@@ -226,7 +221,7 @@ const Volclertsystdet = () => {
               </View>
               <MapView
                 style={styles.volcLertMap}
-                userInterfaceStyle="dark"
+                userInterfaceStyle={volcLertDarkMapTheme ? 'dark' : 'light'}
                 initialRegion={{
                   latitude: volcLertVolcano.latitude,
                   longitude: volcLertVolcano.longitude,

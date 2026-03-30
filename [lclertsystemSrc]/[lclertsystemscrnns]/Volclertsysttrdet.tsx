@@ -1,19 +1,12 @@
-import Volclertsystlay from '../Volclertsystemcmpnt/Volclertsystlay';
+import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
 import type { volcLertStoryType } from './Volclertsysttries';
 
 import React from 'react';
-import {
-  Alert,
-  Image,
-  Share,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Alert, Image, Share, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
 
 const Volclertsysttrdet = () => {
   const navigation = useNavigation();

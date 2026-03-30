@@ -10,20 +10,15 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
 import {
   useFocusEffect,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import { useStore } from '../[lclertsystemstorggee]/volclertsystcntx';
+import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
 
 type volcLertMapVolcanoType = {
   id: string;
@@ -154,6 +149,7 @@ const volcLertMapVolcanoes: volcLertMapVolcanoType[] = [
 
 const Volclertsymap = () => {
   const navigation = useNavigation<any>();
+  const { volcLertDarkMapTheme } = useStore();
   const route = useRoute();
   const { volcLertTargetVolcano } =
     (route.params as volcLertMapRouteParams) || {};
@@ -279,7 +275,7 @@ const Volclertsymap = () => {
   return (
     <View style={styles.volcLertContainer}>
       <MapView
-        userInterfaceStyle="dark"
+        userInterfaceStyle={volcLertDarkMapTheme ? 'dark' : 'light'}
         ref={volcLertMapRef}
         style={styles.volcLertMap}
         initialRegion={{
@@ -309,7 +305,10 @@ const Volclertsymap = () => {
           >
             <Image
               source={require('../../elements/images/volclertsysmappin.png')}
-              style={styles.volcLertMapPinImage}
+              style={[
+                styles.volcLertMapPinImage,
+                { tintColor: volcLertDarkMapTheme ? '#fff' : '#ED7635' },
+              ]}
             />
           </Marker>
         ))}
@@ -357,34 +356,43 @@ const Volclertsymap = () => {
             end={{ x: 1, y: 0 }}
             style={styles.volcLertSelectedVolcanoCardInner}
           >
-            <TouchableOpacity
-              style={styles.volcLertSelectedVolcanoCloseButton}
-              onPress={() => {
-                setVolcLertSelectedVolcano(null);
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: 10,
               }}
-              activeOpacity={0.85}
             >
-              <Text style={styles.volcLertSelectedVolcanoCloseButtonText}>
-                ×
-              </Text>
-            </TouchableOpacity>
-            <View style={{ padding: 12, flexDirection: 'row', gap: 10 }}>
-              <Image
-                source={volcLertSelectedVolcano.image}
-                style={styles.volcLertSelectedVolcanoImage}
-              />
+              <TouchableOpacity
+                style={styles.volcLertSelectedVolcanoCloseButton}
+                onPress={() => {
+                  setVolcLertSelectedVolcano(null);
+                }}
+                activeOpacity={0.85}
+              >
+                <Text style={styles.volcLertSelectedVolcanoCloseButtonText}>
+                  ×
+                </Text>
+              </TouchableOpacity>
+              <View style={styles.volcLertSelectedVolcanoCardInner}>
+                <Image
+                  source={volcLertSelectedVolcano.image}
+                  style={styles.volcLertSelectedVolcanoImage}
+                />
 
-              <View style={{}}>
-                <View style={styles.volcLertSelectedVolcanoCardBody}>
-                  <Text style={styles.volcLertSelectedVolcanoTitle}>
-                    {volcLertSelectedVolcano.name}
-                  </Text>
-                  <Text style={styles.volcLertSelectedVolcanoText}>
-                    {volcLertSelectedVolcano.location}
-                  </Text>
-                  <Text style={styles.volcLertSelectedVolcanoText}>
-                    {volcLertSelectedVolcano.coordinates}
-                  </Text>
+                <View style={styles.volcLertSelectedVolcanoCardBodyWrap}>
+                  <View style={styles.volcLertSelectedVolcanoCardBody}>
+                    <Text style={styles.volcLertSelectedVolcanoTitle}>
+                      {volcLertSelectedVolcano.name}
+                    </Text>
+                    <Text style={styles.volcLertSelectedVolcanoText}>
+                      {volcLertSelectedVolcano.location}
+                    </Text>
+                    <Text style={styles.volcLertSelectedVolcanoText}>
+                      {volcLertSelectedVolcano.coordinates}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
@@ -505,6 +513,9 @@ const styles = StyleSheet.create({
   volcLertSelectedVolcanoCardInner: {
     flexDirection: 'row',
     gap: 10,
+  },
+  volcLertSelectedVolcanoCardBodyWrap: {
+    flex: 1,
   },
   volcLertSelectedVolcanoImage: {
     width: 120,
