@@ -1,19 +1,19 @@
 workflows:
   ios-workflow:
-    name: 'VolcanosColn: System'
+    name: 'Volcan System Alert'
     max_build_duration: 120
     instance_type: mac_mini_m2
     integrations:
-      app_store_connect: ColnAPIKey
+      app_store_connect: ExplorerAPIKey
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.sdfjksd.fiens.dmdmds
+        bundle_identifier: com.skfjfff.tjwjjwk
       vars:
-        BUNDLE_ID: com.sdfjksd.fiens.dmdmds
+        BUNDLE_ID: com.skfjfff.tjwjjwk
         XCODE_WORKSPACE: VolcanoAlertSystem.xcworkspace
         XCODE_SCHEME: VolcanoAlertSystem
-        APP_STORE_APPLE_ID: 6761371181
+        APP_STORE_APPLE_ID: 6761497203
     scripts:
       - name: Install npm dependencies
         script: |

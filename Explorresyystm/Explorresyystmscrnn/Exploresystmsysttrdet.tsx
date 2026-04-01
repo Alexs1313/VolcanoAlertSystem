@@ -1,44 +1,46 @@
-import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
-import type { volcLertStoryType } from './Volclertsysttries';
+import Exploresystmsystlay from '../Explorresyystmcmpns/Exploresystmsystlay';
+import type { exploresystmStoryType } from './Exploresystmsysttries';
 
 import React from 'react';
+
 import { Alert, Image, Share, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
-import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
 
-const Volclertsysttrdet = () => {
+import LinearGradient from 'react-native-linear-gradient';
+import TouchableOpacity from '../Explorresyystmcmpns/Exploresystmsystprs';
+
+const Exploresystmsysttrdet = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { volcLertStory } = route.params as {
-    volcLertStory: volcLertStoryType;
+  const { exploresystmStory } = route.params as {
+    exploresystmStory: exploresystmStoryType;
   };
 
-  const volcLertHandleBack = () => {
+  const exploresystmHandleBack = () => {
     navigation.goBack();
   };
 
-  const volcLertHandleOpenSettings = () => {
-    navigation.navigate('Volclertsysettngs' as never);
+  const exploresystmHandleOpenSettings = () => {
+    navigation.navigate('Exploresystmsysettngs' as never);
   };
 
-  const volcLertHandleShareStory = () => {
+  const exploresystmHandleShareStory = () => {
     Share.share({
-      title: volcLertStory.title,
-      message: `${volcLertStory.title}\n\n${volcLertStory.preview}`,
+      title: exploresystmStory.title,
+      message: `${exploresystmStory.title}\n\n${exploresystmStory.preview}`,
     }).catch(() => {
       Alert.alert('Error', 'Could not open share dialog.');
     });
   };
 
   return (
-    <Volclertsystlay>
-      <View style={styles.volcLertContainer}>
-        <View style={styles.volcLertTopBar}>
+    <Exploresystmsystlay>
+      <View style={styles.exploresystmContainer}>
+        <View style={styles.exploresystmTopBar}>
           <TouchableOpacity
-            style={styles.volcLertTopIconButton}
-            onPress={volcLertHandleBack}
+            style={styles.exploresystmTopIconButton}
+            onPress={exploresystmHandleBack}
             activeOpacity={0.8}
           >
             <Image
@@ -47,7 +49,7 @@ const Volclertsysttrdet = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={volcLertHandleOpenSettings}
+            onPress={exploresystmHandleOpenSettings}
             activeOpacity={0.8}
           >
             <Image
@@ -60,65 +62,72 @@ const Volclertsysttrdet = () => {
           colors={['#612F47', '#8A3844', '#B13D2F']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          style={styles.volcLertStoryCard}
+          style={styles.exploresystmStoryCard}
         >
-          <Text style={styles.volcLertStoryTitle}>{volcLertStory.title}</Text>
+          <Text style={styles.exploresystmStoryTitle}>
+            {exploresystmStory.title}
+          </Text>
 
-          <View style={styles.volcLertStoryTextWrap}>
-            <Text style={styles.volcLertStoryText}>
-              {volcLertStory.preview}
+          <View style={styles.exploresystmStoryTextWrap}>
+            <Text style={styles.exploresystmStoryText}>
+              {exploresystmStory.preview}
             </Text>
           </View>
         </LinearGradient>
 
         <TouchableOpacity
-          style={styles.volcLertShareButtonWrap}
-          onPress={volcLertHandleShareStory}
+          style={styles.exploresystmShareButtonWrap}
+          onPress={exploresystmHandleShareStory}
           activeOpacity={0.85}
         >
           <LinearGradient
             colors={['#CF4E27', '#ED7635']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
-            style={styles.volcLertShareButton}
+            style={styles.exploresystmShareButton}
           >
-            <Text style={styles.volcLertShareButtonText}>Share the story</Text>
+            <Text style={styles.exploresystmShareButtonText}>
+              Share the story
+            </Text>
             <Image
               source={require('../../elements/images/volclertsyoshre.png')}
             />
           </LinearGradient>
         </TouchableOpacity>
       </View>
-    </Volclertsystlay>
+    </Exploresystmsystlay>
   );
 };
 
-export default Volclertsysttrdet;
+export default Exploresystmsysttrdet;
 
 const styles = StyleSheet.create({
-  volcLertContainer: {
-    flex: 1,
-    paddingTop: 60,
-    paddingBottom: 40,
-    paddingHorizontal: 22,
-  },
-  volcLertTopBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  volcLertTopIconButton: {
+  exploresystmTopIconButton: {
     minWidth: 36,
     minHeight: 36,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertStoryCard: {
+
+  exploresystmContainer: {
+    flex: 1,
+    paddingTop: 60,
+    paddingBottom: 40,
+    paddingHorizontal: 22,
+  },
+  exploresystmTopBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  exploresystmStoryCard: {
     marginTop: 20,
     borderRadius: 24,
     overflow: 'hidden',
   },
-  volcLertStoryTitle: {
+
+  exploresystmStoryTitle: {
     color: '#fff',
     textAlign: 'center',
     fontSize: 16,
@@ -126,23 +135,23 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 14,
   },
-  volcLertStoryTextWrap: {
+  exploresystmStoryTextWrap: {
     backgroundColor: '#0000004D',
     paddingHorizontal: 12,
     paddingVertical: 12,
     minHeight: 320,
   },
-  volcLertStoryText: {
+  exploresystmStoryText: {
     color: '#fff',
     fontSize: 16,
     lineHeight: 20,
     textAlign: 'center',
     fontWeight: '200',
   },
-  volcLertShareButtonWrap: {
+  exploresystmShareButtonWrap: {
     marginTop: 24,
   },
-  volcLertShareButton: {
+  exploresystmShareButton: {
     minHeight: 40,
     borderRadius: 199,
     flexDirection: 'row',
@@ -150,7 +159,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
-  volcLertShareButtonText: {
+  exploresystmShareButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',

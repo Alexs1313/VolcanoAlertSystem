@@ -3,10 +3,10 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
-import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
-import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
+import Exploresystmsystlay from '../Explorresyystmcmpns/Exploresystmsystlay';
+import TouchableOpacity from '../Explorresyystmcmpns/Exploresystmsystprs';
 
-type volcLertSavedVolcanoType = {
+type exploresystmSavedVolcanoType = {
   id: string;
   name: string;
   status: 'active' | 'dormant' | 'extinct';
@@ -19,10 +19,10 @@ type volcLertSavedVolcanoType = {
   image: number;
 };
 
-const volcLertSavedVolcanoesStorageKey = 'volcLertSavedVolcanoIds';
-const volcLertSavedFactsStorageKey = 'volcLertSavedFacts';
+const exploresystmSavedVolcanoesStorageKey = 'exploresystmSavedVolcanoIds';
+const exploresystmSavedFactsStorageKey = 'exploresystmSavedFacts';
 
-const volcLertAllVolcanoes: volcLertSavedVolcanoType[] = [
+const exploresystmAllVolcanoes: exploresystmSavedVolcanoType[] = [
   {
     id: 'etna',
     name: 'Mount Etna',
@@ -142,131 +142,142 @@ const volcLertAllVolcanoes: volcLertSavedVolcanoType[] = [
   },
 ];
 
-const Volclertsysavedplaces = () => {
+const Exploresystmsysavedplaces = () => {
   const navigation = useNavigation<any>();
-  const [volcLertSavedIds, setVolcLertSavedIds] = useState<string[]>([]);
-  const [volcLertSavedFacts, setVolcLertSavedFacts] = useState<string[]>([]);
+  const [exploresystmSavedIds, setVolcLertSavedIds] = useState<string[]>([]);
+  const [exploresystmSavedFacts, setVolcLertSavedFacts] = useState<string[]>(
+    [],
+  );
 
   useFocusEffect(
     useCallback(() => {
-      const volcLertLoadSavedIds = async () => {
+      const exploresystmLoadSavedIds = async () => {
         try {
-          const [volcLertSavedIdsRaw, volcLertSavedFactsRaw] =
+          const [exploresystmSavedIdsRaw, exploresystmSavedFactsRaw] =
             await Promise.all([
-              AsyncStorage.getItem(volcLertSavedVolcanoesStorageKey),
-              AsyncStorage.getItem(volcLertSavedFactsStorageKey),
+              AsyncStorage.getItem(exploresystmSavedVolcanoesStorageKey),
+              AsyncStorage.getItem(exploresystmSavedFactsStorageKey),
             ]);
-          const volcLertParsedIds: string[] = volcLertSavedIdsRaw
-            ? JSON.parse(volcLertSavedIdsRaw)
+          const exploresystmParsedIds: string[] = exploresystmSavedIdsRaw
+            ? JSON.parse(exploresystmSavedIdsRaw)
             : [];
-          const volcLertParsedFacts: string[] = volcLertSavedFactsRaw
-            ? JSON.parse(volcLertSavedFactsRaw)
+          const exploresystmParsedFacts: string[] = exploresystmSavedFactsRaw
+            ? JSON.parse(exploresystmSavedFactsRaw)
             : [];
-          setVolcLertSavedIds(volcLertParsedIds);
-          setVolcLertSavedFacts(volcLertParsedFacts);
+          setVolcLertSavedIds(exploresystmParsedIds);
+          setVolcLertSavedFacts(exploresystmParsedFacts);
         } catch {
           setVolcLertSavedIds([]);
           setVolcLertSavedFacts([]);
         }
       };
 
-      volcLertLoadSavedIds();
+      exploresystmLoadSavedIds();
     }, []),
   );
 
-  const volcLertSavedVolcanoCards = useMemo(() => {
-    return volcLertAllVolcanoes.filter(volcLertVolcano =>
-      volcLertSavedIds.includes(volcLertVolcano.id),
+  const exploresystmSavedVolcanoCards = useMemo(() => {
+    return exploresystmAllVolcanoes.filter(exploresystmVolcano =>
+      exploresystmSavedIds.includes(exploresystmVolcano.id),
     );
-  }, [volcLertSavedIds]);
+  }, [exploresystmSavedIds]);
 
-  const volcLertHasNoSavedAtAll =
-    volcLertSavedVolcanoCards.length === 0 && volcLertSavedFacts.length === 0;
+  const exploresystmHasNoSavedAtAll =
+    exploresystmSavedVolcanoCards.length === 0 &&
+    exploresystmSavedFacts.length === 0;
 
-  const volcLertDisplayedVolcanoCards = useMemo(() => {
-    if (volcLertSavedVolcanoCards.length > 0) {
-      return volcLertSavedVolcanoCards.map(volcLertVolcano => ({
-        volcLertVolcano,
-        volcLertIsDemo: false,
+  const exploresystmDisplayedVolcanoCards = useMemo(() => {
+    if (exploresystmSavedVolcanoCards.length > 0) {
+      return exploresystmSavedVolcanoCards.map(exploresystmVolcano => ({
+        exploresystmVolcano,
+        exploresystmIsDemo: false,
       }));
     }
 
-    if (!volcLertHasNoSavedAtAll) {
+    if (!exploresystmHasNoSavedAtAll) {
       return [];
     }
 
-    const volcLertDemoVolcano = volcLertAllVolcanoes[0];
-    if (!volcLertDemoVolcano) {
+    const exploresystmDemoVolcano = exploresystmAllVolcanoes[0];
+    if (!exploresystmDemoVolcano) {
       return [];
     }
 
-    return [{ volcLertVolcano: volcLertDemoVolcano, volcLertIsDemo: true }];
-  }, [volcLertHasNoSavedAtAll, volcLertSavedVolcanoCards]);
+    return [
+      {
+        exploresystmVolcano: exploresystmDemoVolcano,
+        exploresystmIsDemo: true,
+      },
+    ];
+  }, [exploresystmHasNoSavedAtAll, exploresystmSavedVolcanoCards]);
 
-  const volcLertHandleBack = () => {
+  const exploresystmHandleBack = () => {
     navigation.goBack();
   };
 
-  const volcLertHandleOpenSettings = () => {
-    navigation.navigate('Volclertsysettngs');
+  const exploresystmHandleOpenSettings = () => {
+    navigation.navigate('Exploresystmsysettngs');
   };
 
-  const volcLertHandleOpenVolcanoDetails = (
-    volcLertVolcano: volcLertSavedVolcanoType,
+  const exploresystmHandleOpenVolcanoDetails = (
+    exploresystmVolcano: exploresystmSavedVolcanoType,
   ) => {
-    navigation.navigate('Volclertsystdet', {
-      volcLertVolcano,
+    navigation.navigate('Exploresystmsystdet', {
+      exploresystmVolcano,
     });
   };
 
-  const volcLertHandleRemoveSavedVolcano = async (
-    volcLertVolcanoId: string,
+  const exploresystmHandleRemoveSavedVolcano = async (
+    exploresystmVolcanoId: string,
   ) => {
     try {
-      const volcLertUpdatedIds = volcLertSavedIds.filter(
-        volcLertSavedId => volcLertSavedId !== volcLertVolcanoId,
+      const exploresystmUpdatedIds = exploresystmSavedIds.filter(
+        exploresystmSavedId => exploresystmSavedId !== exploresystmVolcanoId,
       );
       await AsyncStorage.setItem(
-        volcLertSavedVolcanoesStorageKey,
-        JSON.stringify(volcLertUpdatedIds),
+        exploresystmSavedVolcanoesStorageKey,
+        JSON.stringify(exploresystmUpdatedIds),
       );
-      setVolcLertSavedIds(volcLertUpdatedIds);
+      setVolcLertSavedIds(exploresystmUpdatedIds);
     } catch {
       // Keep current state when storage update fails.
     }
   };
 
-  const volcLertHandleRemoveSavedFact = async (volcLertFactValue: string) => {
+  const exploresystmHandleRemoveSavedFact = async (
+    exploresystmFactValue: string,
+  ) => {
     try {
-      const volcLertUpdatedFacts = volcLertSavedFacts.filter(
-        volcLertSavedFact => volcLertSavedFact !== volcLertFactValue,
+      const exploresystmUpdatedFacts = exploresystmSavedFacts.filter(
+        exploresystmSavedFact =>
+          exploresystmSavedFact !== exploresystmFactValue,
       );
       await AsyncStorage.setItem(
-        volcLertSavedFactsStorageKey,
-        JSON.stringify(volcLertUpdatedFacts),
+        exploresystmSavedFactsStorageKey,
+        JSON.stringify(exploresystmUpdatedFacts),
       );
-      setVolcLertSavedFacts(volcLertUpdatedFacts);
+      setVolcLertSavedFacts(exploresystmUpdatedFacts);
     } catch {
       // Keep current state when storage update fails.
     }
   };
 
   return (
-    <Volclertsystlay>
-      <View style={styles.volcLertContainer}>
-        <View style={styles.volcLertTopBar}>
+    <Exploresystmsystlay>
+      <View style={styles.exploresystmContainer}>
+        <View style={styles.exploresystmTopBar}>
           <TouchableOpacity
-            style={styles.volcLertTopIconButton}
-            onPress={volcLertHandleBack}
+            style={styles.exploresystmTopIconButton}
+            onPress={exploresystmHandleBack}
             activeOpacity={0.8}
           >
             <Image
               source={require('../../elements/images/volclertsyoback.png')}
             />
           </TouchableOpacity>
-          <Text style={styles.volcLertTitle}>My Saved</Text>
+          <Text style={styles.exploresystmTitle}>My Saved</Text>
           <TouchableOpacity
-            onPress={volcLertHandleOpenSettings}
+            onPress={exploresystmHandleOpenSettings}
             activeOpacity={0.8}
           >
             <Image
@@ -277,74 +288,78 @@ const Volclertsysavedplaces = () => {
 
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.volcLertScrollContent}
+          contentContainerStyle={styles.exploresystmScrollContent}
         >
-          {volcLertHasNoSavedAtAll && (
-            <View style={styles.volcLertEmptyWrap}>
-              <Text style={styles.volcLertEmptyText}>
+          {exploresystmHasNoSavedAtAll && (
+            <View style={styles.exploresystmEmptyWrap}>
+              <Text style={styles.exploresystmEmptyText}>
                 You have no saved yet.
               </Text>
             </View>
           )}
 
-          {volcLertDisplayedVolcanoCards.map(
-            ({ volcLertVolcano, volcLertIsDemo }) => (
+          {exploresystmDisplayedVolcanoCards.map(
+            ({ exploresystmVolcano, exploresystmIsDemo }) => (
               <TouchableOpacity
-                key={volcLertVolcano.id}
-                style={styles.volcLertCardWrap}
+                key={exploresystmVolcano.id}
+                style={styles.exploresystmCardWrap}
                 activeOpacity={0.9}
                 onPress={() =>
-                  volcLertHandleOpenVolcanoDetails(volcLertVolcano)
+                  exploresystmHandleOpenVolcanoDetails(exploresystmVolcano)
                 }
               >
                 <LinearGradient
                   colors={['#612F47', '#8A3844', '#B13D2F']}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
-                  style={styles.volcLertCard}
+                  style={styles.exploresystmCard}
                 >
-                  <View style={styles.volcLertCardHeader}>
-                    <Text style={styles.volcLertCardTitle}>
-                      {volcLertVolcano.name}
+                  <View style={styles.exploresystmCardHeader}>
+                    <Text style={styles.exploresystmCardTitle}>
+                      {exploresystmVolcano.name}
                     </Text>
-                    {volcLertIsDemo ? (
-                      <View style={styles.volcLertDemoBadge}>
-                        <Text style={styles.volcLertDemoBadgeText}>Demo</Text>
+                    {exploresystmIsDemo ? (
+                      <View style={styles.exploresystmDemoBadge}>
+                        <Text style={styles.exploresystmDemoBadgeText}>
+                          Demo
+                        </Text>
                       </View>
                     ) : (
                       <TouchableOpacity
-                        onPress={volcLertEvent => {
-                          volcLertEvent.stopPropagation();
-                          volcLertHandleRemoveSavedVolcano(volcLertVolcano.id);
+                        onPress={exploresystmEvent => {
+                          exploresystmEvent.stopPropagation();
+                          exploresystmHandleRemoveSavedVolcano(
+                            exploresystmVolcano.id,
+                          );
                         }}
                         activeOpacity={0.85}
                       >
                         <Image
                           source={require('../../elements/images/volclertsmsaved.png')}
-                          style={styles.volcLertSavedIcon}
+                          style={styles.exploresystmSavedIcon}
                         />
                       </TouchableOpacity>
                     )}
                   </View>
 
-                  <View style={styles.volcLertCardBody}>
+                  <View style={styles.exploresystmCardBody}>
                     <Image
-                      source={volcLertVolcano.image}
-                      style={styles.volcLertCardImage}
+                      source={exploresystmVolcano.image}
+                      style={styles.exploresystmCardImage}
                       resizeMode="cover"
                     />
-                    <View style={styles.volcLertCardInfoWrap}>
-                      <Text style={styles.volcLertCardInfoText}>
-                        <Text style={styles.volcLertCardInfoBold}>
+                    <View style={styles.exploresystmCardInfoWrap}>
+                      <Text style={styles.exploresystmCardInfoText}>
+                        <Text style={styles.exploresystmCardInfoBold}>
                           Location:{' '}
                         </Text>
-                        {volcLertVolcano.location}
+                        {exploresystmVolcano.location}
                       </Text>
-                      <Text style={styles.volcLertCardInfoText}>
-                        <Text style={styles.volcLertCardInfoBold}>
+                      <Text style={styles.exploresystmCardInfoText}>
+                        <Text style={styles.exploresystmCardInfoBold}>
                           Height:{' '}
                         </Text>
-                        {volcLertVolcano.height}
+                        {exploresystmVolcano.height}
                       </Text>
                     </View>
                   </View>
@@ -353,114 +368,114 @@ const Volclertsysavedplaces = () => {
             ),
           )}
 
-          {volcLertSavedFacts.length > 0 &&
-            volcLertSavedFacts.map(volcLertSavedFact => (
+          {exploresystmSavedFacts.length > 0 &&
+            exploresystmSavedFacts.map(exploresystmSavedFact => (
               <LinearGradient
-                key={volcLertSavedFact}
+                key={exploresystmSavedFact}
                 colors={['#612F47', '#8A3844', '#B13D2F']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={styles.volcLertFactCard}
+                style={styles.exploresystmFactCard}
               >
-                <View style={styles.volcLertFactCardContent}>
-                  <View style={styles.volcLertFactCardHeader}>
-                    <Text style={styles.volcLertFactCardTitle}>
+                <View style={styles.exploresystmFactCardContent}>
+                  <View style={styles.exploresystmFactCardHeader}>
+                    <Text style={styles.exploresystmFactCardTitle}>
                       Interesting fact
                     </Text>
                     <TouchableOpacity
                       onPress={() =>
-                        volcLertHandleRemoveSavedFact(volcLertSavedFact)
+                        exploresystmHandleRemoveSavedFact(exploresystmSavedFact)
                       }
                       activeOpacity={0.85}
                     >
                       <Image
                         source={require('../../elements/images/volclertsmsaved.png')}
-                        style={styles.volcLertSavedIcon}
+                        style={styles.exploresystmSavedIcon}
                       />
                     </TouchableOpacity>
                   </View>
-                  <Text style={styles.volcLertFactCardText}>
-                    {volcLertSavedFact}
+                  <Text style={styles.exploresystmFactCardText}>
+                    {exploresystmSavedFact}
                   </Text>
                 </View>
               </LinearGradient>
             ))}
         </ScrollView>
       </View>
-    </Volclertsystlay>
+    </Exploresystmsystlay>
   );
 };
 
-export default Volclertsysavedplaces;
+export default Exploresystmsysavedplaces;
 
 const styles = StyleSheet.create({
-  volcLertContainer: {
+  exploresystmContainer: {
     flex: 1,
     paddingTop: 60,
     paddingHorizontal: 22,
     paddingBottom: 30,
   },
-  volcLertTopBar: {
+  exploresystmTopBar: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 10,
   },
-  volcLertTopIconButton: {
+  exploresystmTopIconButton: {
     minWidth: 36,
     minHeight: 36,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertTitle: {
+  exploresystmTitle: {
     marginTop: 16,
     color: '#fff',
     fontSize: 26,
     fontWeight: '700',
   },
-  volcLertEmptyWrap: {
+  exploresystmEmptyWrap: {
     marginTop: 30,
     alignItems: 'center',
   },
-  volcLertEmptyText: {
+  exploresystmEmptyText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },
-  volcLertEmptySubText: {
+  exploresystmEmptySubText: {
     marginTop: 6,
     color: '#F4E6DC',
     fontSize: 13,
     textAlign: 'center',
   },
-  volcLertCardWrap: {
+  exploresystmCardWrap: {
     marginTop: 14,
   },
-  volcLertScrollContent: {
+  exploresystmScrollContent: {
     paddingBottom: 30,
   },
-  volcLertCard: {
+  exploresystmCard: {
     borderRadius: 24,
     overflow: 'hidden',
   },
-  volcLertCardHeader: {
+  exploresystmCardHeader: {
     minHeight: 46,
     paddingHorizontal: 14,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  volcLertCardTitle: {
+  exploresystmCardTitle: {
     color: '#fff',
     fontSize: 18,
     fontWeight: '700',
   },
-  volcLertSavedIcon: {
+  exploresystmSavedIcon: {
     width: 24,
     height: 24,
     resizeMode: 'contain',
   },
-  volcLertDemoBadge: {
+  exploresystmDemoBadge: {
     paddingHorizontal: 10,
     minHeight: 24,
     borderRadius: 12,
@@ -468,59 +483,59 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#CF4E27',
   },
-  volcLertDemoBadgeText: {
+  exploresystmDemoBadgeText: {
     color: '#fff',
     fontSize: 12,
     fontWeight: '700',
   },
-  volcLertCardBody: {
+  exploresystmCardBody: {
     backgroundColor: '#0000004D',
     padding: 10,
   },
-  volcLertCardImage: {
+  exploresystmCardImage: {
     width: '100%',
     height: 130,
   },
-  volcLertCardInfoWrap: {
+  exploresystmCardInfoWrap: {
     marginTop: 10,
   },
-  volcLertCardInfoText: {
+  exploresystmCardInfoText: {
     color: '#F4E6DC',
     fontSize: 12,
     lineHeight: 22,
     marginTop: 2,
     fontWeight: '400',
   },
-  volcLertCardInfoBold: {
+  exploresystmCardInfoBold: {
     color: '#fff',
     fontWeight: '700',
   },
-  volcLertSectionTitle: {
+  exploresystmSectionTitle: {
     marginTop: 20,
     color: '#fff',
     fontSize: 24,
     fontWeight: '700',
   },
-  volcLertFactCard: {
+  exploresystmFactCard: {
     marginTop: 12,
     borderRadius: 20,
     overflow: 'hidden',
   },
-  volcLertFactCardContent: {
+  exploresystmFactCardContent: {
     padding: 14,
   },
-  volcLertFactCardHeader: {
+  exploresystmFactCardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 8,
   },
-  volcLertFactCardTitle: {
+  exploresystmFactCardTitle: {
     color: '#fff',
     fontSize: 18,
     fontWeight: '700',
   },
-  volcLertFactCardText: {
+  exploresystmFactCardText: {
     color: '#F4E6DC',
     fontSize: 14,
     lineHeight: 20,

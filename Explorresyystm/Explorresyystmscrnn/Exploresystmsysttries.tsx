@@ -1,13 +1,14 @@
-import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
+import Exploresystmsystlay from '../Explorresyystmcmpns/Exploresystmsystlay';
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
 import LinearGradient from 'react-native-linear-gradient';
-import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
 
-const volcLertStoriesData = [
+import TouchableOpacity from '../Explorresyystmcmpns/Exploresystmsystprs';
+
+const exploresystmStoriesData = [
   {
     id: 1,
     title: 'The Tragedy of Pompeii',
@@ -70,33 +71,35 @@ const volcLertStoriesData = [
   },
 ];
 
-export type volcLertStoryType = (typeof volcLertStoriesData)[number];
+export type exploresystmStoryType = (typeof exploresystmStoriesData)[number];
 
-const Volclertsysttries = () => {
+const Exploresystmsysttries = () => {
   const navigation = useNavigation<any>();
 
-  const volcLertHandleBack = () => {
+  const exploresystmHandleBack = () => {
     navigation.goBack();
   };
 
-  const volcLertHandleOpenSettings = () => {
-    navigation.navigate('Volclertsysettngs' as never);
+  const exploresystmHandleOpenSettings = () => {
+    navigation.navigate('Exploresystmsysettngs' as never);
   };
 
-  const volcLertHandleOpenStoryDetails = (volcLertStory: volcLertStoryType) => {
+  const exploresystmHandleOpenStoryDetails = (
+    exploresystmStory: exploresystmStoryType,
+  ) => {
     navigation.navigate(
-      'Volclertsysttrdet' as never,
-      { volcLertStory } as never,
+      'Exploresystmsysttrdet' as never,
+      { exploresystmStory } as never,
     );
   };
 
   return (
-    <Volclertsystlay>
-      <View style={styles.volcLertContainer}>
-        <View style={styles.volcLertTopBar}>
+    <Exploresystmsystlay>
+      <View style={styles.exploresystmContainer}>
+        <View style={styles.exploresystmTopBar}>
           <TouchableOpacity
-            style={styles.volcLertTopIconButton}
-            onPress={volcLertHandleBack}
+            style={styles.exploresystmTopIconButton}
+            onPress={exploresystmHandleBack}
             activeOpacity={0.8}
           >
             <Image
@@ -105,7 +108,7 @@ const Volclertsysttries = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={volcLertHandleOpenSettings}
+            onPress={exploresystmHandleOpenSettings}
             activeOpacity={0.8}
           >
             <Image
@@ -114,28 +117,30 @@ const Volclertsysttries = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.volcLertStoriesList}>
-          {volcLertStoriesData.map(volcLertStory => (
+        <View style={styles.exploresystmStoriesList}>
+          {exploresystmStoriesData.map(exploresystmStory => (
             <TouchableOpacity
-              key={volcLertStory.id}
-              onPress={() => volcLertHandleOpenStoryDetails(volcLertStory)}
+              key={exploresystmStory.id}
+              onPress={() =>
+                exploresystmHandleOpenStoryDetails(exploresystmStory)
+              }
               activeOpacity={0.85}
             >
               <LinearGradient
                 colors={['#612F47', '#8A3844', '#B13D2F']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={styles.volcLertStoryCard}
+                style={styles.exploresystmStoryCard}
               >
-                <Text style={styles.volcLertStoryTitle}>
-                  {volcLertStory.title}
+                <Text style={styles.exploresystmStoryTitle}>
+                  {exploresystmStory.title}
                 </Text>
-                <View style={styles.volcLertStoryPreviewWrap}>
+                <View style={styles.exploresystmStoryPreviewWrap}>
                   <Text
                     numberOfLines={2}
-                    style={styles.volcLertStoryPreviewText}
+                    style={styles.exploresystmStoryPreviewText}
                   >
-                    {volcLertStory.preview}
+                    {exploresystmStory.preview}
                   </Text>
                 </View>
               </LinearGradient>
@@ -143,45 +148,46 @@ const Volclertsysttries = () => {
           ))}
         </View>
       </View>
-    </Volclertsystlay>
+    </Exploresystmsystlay>
   );
 };
 
-export default Volclertsysttries;
+export default Exploresystmsysttries;
 
 const styles = StyleSheet.create({
-  volcLertContainer: {
+  exploresystmContainer: {
     flex: 1,
     paddingTop: 60,
     paddingBottom: 40,
     paddingHorizontal: 22,
   },
-  volcLertTopBar: {
+  exploresystmTopBar: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  volcLertTopIconButton: {
+  exploresystmTopIconButton: {
     minWidth: 36,
     minHeight: 36,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertBackIcon: {
+  exploresystmBackIcon: {
     fontSize: 34,
     color: '#FF8E3A',
     fontWeight: '700',
   },
-  volcLertStoriesList: {
+  exploresystmStoriesList: {
     marginTop: 16,
     rowGap: 16,
     paddingBottom: 24,
   },
-  volcLertStoryCard: {
+  exploresystmStoryCard: {
     borderRadius: 24,
     overflow: 'hidden',
   },
-  volcLertStoryTitle: {
+
+  exploresystmStoryTitle: {
     color: '#fff',
     textAlign: 'center',
     fontSize: 16,
@@ -190,14 +196,18 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 14,
   },
-  volcLertStoryPreviewWrap: {
+
+  exploresystmStoryPreviewWrap: {
     backgroundColor: '#0000004D',
     paddingHorizontal: 10,
+
     paddingVertical: 8,
+
     minHeight: 60,
+
     justifyContent: 'center',
   },
-  volcLertStoryPreviewText: {
+  exploresystmStoryPreviewText: {
     color: '#fff',
     fontSize: 12,
     fontWeight: '300',

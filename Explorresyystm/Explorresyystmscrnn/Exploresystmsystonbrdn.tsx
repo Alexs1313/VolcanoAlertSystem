@@ -1,12 +1,15 @@
 import LinearGradient from 'react-native-linear-gradient';
+
 import { useNavigation } from '@react-navigation/native';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Image, StyleSheet, Text, View } from 'react-native';
-import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
-import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
 
-const volcLertOnboardingData = [
+import { Animated, Image, StyleSheet, Text, View } from 'react-native';
+
+import Exploresystmsystlay from '../Explorresyystmcmpns/Exploresystmsystlay';
+import TouchableOpacity from '../Explorresyystmcmpns/Exploresystmsystprs';
+
+const exploresystmOnboardingData = [
   {
     id: 1,
     image: require('../../elements/images/volclertsyon1.png'),
@@ -49,58 +52,66 @@ const volcLertOnboardingData = [
   },
 ];
 
-const Volclertsystonbrdn = () => {
+const Exploresystmsystonbrdn = () => {
   const navigation = useNavigation<any>();
-  const [volcLertCurrIndex, setVolcLertCurrIndex] = useState(0);
-  const [volcLertTypedTitle, setVolcLertTypedTitle] = useState('');
-  const [volcLertTypedDescription, setVolcLertTypedDescription] = useState('');
-  const volcLertButtonScaleAnim = useRef(new Animated.Value(1)).current;
+  const [exploresystmCurrIndex, setVolcLertCurrIndex] = useState(0);
+  const [exploresystmTypedTitle, setVolcLertTypedTitle] = useState('');
+  const [exploresystmTypedDescription, setVolcLertTypedDescription] =
+    useState('');
+  const exploresystmButtonScaleAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    const volcLertCurrentSlide = volcLertOnboardingData[volcLertCurrIndex];
-    if (!volcLertCurrentSlide) {
+    const exploresystmCurrentSlide =
+      exploresystmOnboardingData[exploresystmCurrIndex];
+    if (!exploresystmCurrentSlide) {
       return;
     }
 
     setVolcLertTypedTitle('');
     setVolcLertTypedDescription('');
 
-    let volcLertTitleIndex = 0;
-    let volcLertDescriptionIndex = 0;
+    let exploresystmTitleIndex = 0;
+    let exploresystmDescriptionIndex = 0;
 
-    const volcLertTypingInterval = setInterval(() => {
-      if (volcLertTitleIndex < volcLertCurrentSlide.title.length) {
-        volcLertTitleIndex += 1;
+    const exploresystmTypingInterval = setInterval(() => {
+      if (exploresystmTitleIndex < exploresystmCurrentSlide.title.length) {
+        exploresystmTitleIndex += 1;
         setVolcLertTypedTitle(
-          volcLertCurrentSlide.title.slice(0, volcLertTitleIndex),
+          exploresystmCurrentSlide.title.slice(0, exploresystmTitleIndex),
         );
         return;
       }
 
-      if (volcLertDescriptionIndex < volcLertCurrentSlide.description.length) {
-        volcLertDescriptionIndex += 1;
+      if (
+        exploresystmDescriptionIndex <
+        exploresystmCurrentSlide.description.length
+      ) {
+        exploresystmDescriptionIndex += 1;
         setVolcLertTypedDescription(
-          volcLertCurrentSlide.description.slice(0, volcLertDescriptionIndex),
+          exploresystmCurrentSlide.description.slice(
+            0,
+            exploresystmDescriptionIndex,
+          ),
         );
         return;
       }
 
-      clearInterval(volcLertTypingInterval);
+      clearInterval(exploresystmTypingInterval);
     }, 18);
 
     return () => {
-      clearInterval(volcLertTypingInterval);
+      clearInterval(exploresystmTypingInterval);
     };
-  }, [volcLertCurrIndex]);
+  }, [exploresystmCurrIndex]);
 
-  const volcLertHandleNext = () => {
-    volcLertCurrIndex < 4
-      ? setVolcLertCurrIndex(volcLertCurrIndex + 1)
-      : navigation.replace('Volclertsysthom' as never);
+  const exploresystmHandleNext = () => {
+    exploresystmCurrIndex < 4
+      ? setVolcLertCurrIndex(exploresystmCurrIndex + 1)
+      : navigation.replace('Exploresystmsysthom' as never);
   };
 
-  const volcLertHandlePressIn = () => {
-    Animated.spring(volcLertButtonScaleAnim, {
+  const exploresystmHandlePressIn = () => {
+    Animated.spring(exploresystmButtonScaleAnim, {
       toValue: 0.96,
       speed: 28,
       bounciness: 0,
@@ -108,8 +119,8 @@ const Volclertsystonbrdn = () => {
     }).start();
   };
 
-  const volcLertHandlePressOut = () => {
-    Animated.spring(volcLertButtonScaleAnim, {
+  const exploresystmHandlePressOut = () => {
+    Animated.spring(exploresystmButtonScaleAnim, {
       toValue: 1,
       speed: 24,
       bounciness: 6,
@@ -118,12 +129,12 @@ const Volclertsystonbrdn = () => {
   };
 
   return (
-    <Volclertsystlay>
-      <View style={volcLertStyles.volcLertContainer}>
+    <Exploresystmsystlay>
+      <View style={exploresystmStyles.exploresystmContainer}>
         <Image
-          source={volcLertOnboardingData[volcLertCurrIndex].image}
+          source={exploresystmOnboardingData[exploresystmCurrIndex].image}
           style={
-            volcLertCurrIndex === 0 && {
+            exploresystmCurrIndex === 0 && {
               width: 200,
               height: 200,
               borderRadius: 52,
@@ -131,52 +142,59 @@ const Volclertsystonbrdn = () => {
           }
         />
 
-        <Text style={volcLertStyles.volcLertTitle}>{volcLertTypedTitle}</Text>
-        <Text style={volcLertStyles.volcLertDescription}>
-          {volcLertTypedDescription}
+        <Text style={exploresystmStyles.exploresystmTitle}>
+          {exploresystmTypedTitle}
+        </Text>
+        <Text style={exploresystmStyles.exploresystmDescription}>
+          {exploresystmTypedDescription}
         </Text>
 
         <Animated.View
           style={[
-            volcLertStyles.volcLertButtonWrap,
-            { transform: [{ scale: volcLertButtonScaleAnim }] },
+            exploresystmStyles.exploresystmButtonWrap,
+            { transform: [{ scale: exploresystmButtonScaleAnim }] },
           ]}
         >
           <TouchableOpacity
-            style={volcLertStyles.volcLertButtonTouchArea}
-            onPress={volcLertHandleNext}
-            onPressIn={volcLertHandlePressIn}
-            onPressOut={volcLertHandlePressOut}
+            style={exploresystmStyles.exploresystmButtonTouchArea}
+            onPress={exploresystmHandleNext}
+            onPressIn={exploresystmHandlePressIn}
+            onPressOut={exploresystmHandlePressOut}
             activeOpacity={1}
           >
             <LinearGradient
               colors={['#CF4E27', '#ED7635']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
-              style={volcLertStyles.volcLertButton}
+              style={exploresystmStyles.exploresystmButton}
             >
-              <Text style={volcLertStyles.volcLertButtonText}>
-                {volcLertOnboardingData[volcLertCurrIndex].buttonText}
+              <Text style={exploresystmStyles.exploresystmButtonText}>
+                {exploresystmOnboardingData[exploresystmCurrIndex].buttonText}
               </Text>
             </LinearGradient>
           </TouchableOpacity>
         </Animated.View>
       </View>
-    </Volclertsystlay>
+    </Exploresystmsystlay>
   );
 };
 
-export default Volclertsystonbrdn;
+export default Exploresystmsystonbrdn;
 
-const volcLertStyles = StyleSheet.create({
-  volcLertContainer: {
+const exploresystmStyles = StyleSheet.create({
+  exploresystmButtonText: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  exploresystmContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingBottom: 60,
     paddingTop: 100,
   },
-  volcLertButton: {
+  exploresystmButton: {
     width: '75%',
     height: 70,
     borderRadius: 100,
@@ -185,18 +203,14 @@ const volcLertStyles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 20,
   },
-  volcLertButtonWrap: {
+  exploresystmButtonWrap: {
     width: '100%',
   },
-  volcLertButtonTouchArea: {
+  exploresystmButtonTouchArea: {
     width: '100%',
   },
-  volcLertButtonText: {
-    color: '#fff',
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  volcLertTitle: {
+
+  exploresystmTitle: {
     fontSize: 36,
     fontWeight: '900',
     color: '#fff',
@@ -204,7 +218,7 @@ const volcLertStyles = StyleSheet.create({
     marginTop: 20,
     paddingHorizontal: 30,
   },
-  volcLertDescription: {
+  exploresystmDescription: {
     fontSize: 20,
     fontWeight: '700',
     color: '#E6B59F',

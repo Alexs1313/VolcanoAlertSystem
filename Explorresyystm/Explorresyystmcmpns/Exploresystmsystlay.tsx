@@ -1,7 +1,7 @@
 import React from 'react';
 import { ImageBackground, ScrollView, StyleSheet } from 'react-native';
 
-const Volclertsystlay = ({ children }: { children: React.ReactNode }) => {
+const Exploresystmsystlay = ({ children }: { children: React.ReactNode }) => {
   return (
     <ImageBackground
       source={require('../../elements/images/volclertsystbk.png')}
@@ -18,7 +18,7 @@ const Volclertsystlay = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default Volclertsystlay;
+export default Exploresystmsystlay;
 
 const styles = StyleSheet.create({
   container: {

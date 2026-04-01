@@ -1,37 +1,39 @@
 // settings
 
-import { useStore } from '../[lclertsystemstorggee]/volclertsystcntx';
+import { useStore } from '../Explorresyystmstrgg/explorresyystmcontxx';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
+
 import { Alert, Image, Linking, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
-import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
-import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
 
-const Volclertsysettngs = () => {
+import LinearGradient from 'react-native-linear-gradient';
+
+import Exploresystmsystlay from '../Explorresyystmcmpns/Exploresystmsystlay';
+
+import TouchableOpacity from '../Explorresyystmcmpns/Exploresystmsystprs';
+
+const Exploresystmsysettngs = () => {
   const navigation = useNavigation();
   const {
-    volcLertVibration,
+    exploresystmVibration,
     setVolcLertVibration,
-    volcLertBackgroundMusic,
+    exploresystmBackgroundMusic,
     setVolcLertBackgroundMusic,
-    volcLertDarkMapTheme,
-    setVolcLertDarkMapTheme,
   } = useStore();
 
-  const volcLertHandleBack = () => {
+  const exploresystmHandleBack = () => {
     navigation.goBack();
   };
 
-  const volcLertHandleShareMap = () => {
+  const exploresystmHandleShareMap = () => {
     Linking.openURL(
-      'https://apps.apple.com/us/app/volcanoscoln-system/id6761371181',
+      'https://apps.apple.com/us/app/volcan-system-alert/id6761497203',
     );
   };
 
-  const volcLertToggleBackgroundMusic = async (selectedValue: boolean) => {
+  const exploresystmToggleBackgroundMusic = async (selectedValue: boolean) => {
     try {
       await AsyncStorage.setItem(
         'toggleVolcLertBackgroundMusic',
@@ -43,7 +45,7 @@ const Volclertsysettngs = () => {
     }
   };
 
-  const volcLertToggleVibration = async (selectedValue: boolean) => {
+  const exploresystmToggleVibration = async (selectedValue: boolean) => {
     try {
       await AsyncStorage.setItem(
         'toggleVolcLertVibration',
@@ -55,7 +57,7 @@ const Volclertsysettngs = () => {
     }
   };
 
-  const volcLertToggleDarkMapTheme = async (selectedValue: boolean) => {
+  const exploresystmToggleDarkMapTheme = async (selectedValue: boolean) => {
     try {
       await AsyncStorage.setItem(
         'toggleVolcLertDarkMapTheme',
@@ -67,7 +69,7 @@ const Volclertsysettngs = () => {
     }
   };
 
-  const volcLertHandleDeleteAllSaved = () => {
+  const exploresystmHandleDeleteAllSaved = () => {
     Alert.alert(
       'Delete all saved',
       'Are you sure you want to delete all saved places and facts?',
@@ -79,8 +81,8 @@ const Volclertsysettngs = () => {
           onPress: async () => {
             try {
               await Promise.all([
-                AsyncStorage.removeItem('volcLertSavedVolcanoIds'),
-                AsyncStorage.removeItem('volcLertSavedFacts'),
+                AsyncStorage.removeItem('exploresystmSavedVolcanoIds'),
+                AsyncStorage.removeItem('exploresystmSavedFacts'),
               ]);
               Alert.alert('Done', 'All saved data was deleted.');
             } catch (error) {
@@ -94,11 +96,11 @@ const Volclertsysettngs = () => {
   };
 
   return (
-    <Volclertsystlay>
-      <View style={styles.volcLertContainer}>
+    <Exploresystmsystlay>
+      <View style={styles.exploresystmContainer}>
         <TouchableOpacity
-          style={styles.volcLertBackButton}
-          onPress={volcLertHandleBack}
+          style={styles.exploresystmBackButton}
+          onPress={exploresystmHandleBack}
           activeOpacity={0.8}
         >
           <Image
@@ -110,16 +112,18 @@ const Volclertsysettngs = () => {
           colors={['#612F47', '#8A3844', '#B13D2F']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          style={styles.volcLertSettingsCard}
+          style={styles.exploresystmSettingsCard}
         >
-          <View style={styles.volcLertSettingsCardInner}>
-            <View style={styles.volcLertSettingsRow}>
-              <Text style={styles.volcLertSettingsLabel}>Vibration</Text>
+          <View style={styles.exploresystmSettingsCardInner}>
+            <View style={styles.exploresystmSettingsRow}>
+              <Text style={styles.exploresystmSettingsLabel}>Vibration</Text>
               <TouchableOpacity
-                onPress={() => volcLertToggleVibration(!volcLertVibration)}
+                onPress={() =>
+                  exploresystmToggleVibration(!exploresystmVibration)
+                }
                 activeOpacity={0.8}
               >
-                {volcLertVibration ? (
+                {exploresystmVibration ? (
                   <Image
                     source={require('../../elements/images/volclertsyswact.png')}
                   />
@@ -131,39 +135,19 @@ const Volclertsysettngs = () => {
               </TouchableOpacity>
             </View>
 
-            <View style={styles.volcLertDivider} />
+            <View style={styles.exploresystmDivider} />
 
-            <View style={styles.volcLertSettingsRow}>
-              <Text style={styles.volcLertSettingsLabel}>Music</Text>
+            <View style={styles.exploresystmSettingsRow}>
+              <Text style={styles.exploresystmSettingsLabel}>Music</Text>
               <TouchableOpacity
                 onPress={() =>
-                  volcLertToggleBackgroundMusic(!volcLertBackgroundMusic)
+                  exploresystmToggleBackgroundMusic(
+                    !exploresystmBackgroundMusic,
+                  )
                 }
                 activeOpacity={0.8}
               >
-                {volcLertBackgroundMusic ? (
-                  <Image
-                    source={require('../../elements/images/volclertsyswact.png')}
-                  />
-                ) : (
-                  <Image
-                    source={require('../../elements/images/volclertsyswinact.png')}
-                  />
-                )}
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.volcLertDivider} />
-
-            <View style={styles.volcLertSettingsRow}>
-              <Text style={styles.volcLertSettingsLabel}>Dark map</Text>
-              <TouchableOpacity
-                onPress={() =>
-                  volcLertToggleDarkMapTheme(!volcLertDarkMapTheme)
-                }
-                activeOpacity={0.8}
-              >
-                {volcLertDarkMapTheme ? (
+                {exploresystmBackgroundMusic ? (
                   <Image
                     source={require('../../elements/images/volclertsyswact.png')}
                   />
@@ -178,92 +162,77 @@ const Volclertsysettngs = () => {
         </LinearGradient>
 
         <TouchableOpacity
-          style={styles.volcLertShareButtonWrap}
-          onPress={volcLertHandleShareMap}
+          style={styles.exploresystmShareButtonWrap}
+          onPress={exploresystmHandleShareMap}
           activeOpacity={0.85}
         >
           <LinearGradient
             colors={['#CF4E27', '#ED7635']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
-            style={styles.volcLertShareButton}
+            style={styles.exploresystmShareButton}
           >
-            <Text style={styles.volcLertShareButtonText}>Share the app</Text>
+            <Text style={styles.exploresystmShareButtonText}>
+              Share the app
+            </Text>
             <Image
               source={require('../../elements/images/volclertsyoshre.png')}
             />
           </LinearGradient>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.volcLertDeleteButtonWrap}
-          onPress={volcLertHandleDeleteAllSaved}
-          activeOpacity={0.85}
-        >
-          <LinearGradient
-            colors={['#8F2B2B', '#C53D3D']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.volcLertDeleteButton}
-          >
-            <Text style={styles.volcLertDeleteButtonText}>
-              Delete all saved
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
       </View>
-    </Volclertsystlay>
+    </Exploresystmsystlay>
   );
 };
 
-export default Volclertsysettngs;
+export default Exploresystmsysettngs;
 
 const styles = StyleSheet.create({
-  volcLertContainer: {
+  exploresystmContainer: {
     flex: 1,
     paddingTop: 60,
     paddingBottom: 40,
     paddingHorizontal: 22,
   },
-  volcLertBackButton: {
+  exploresystmBackButton: {
     minWidth: 36,
     minHeight: 36,
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
-  volcLertBackIcon: {
+  exploresystmBackIcon: {
     fontSize: 34,
     color: '#FF8E3A',
     fontWeight: '700',
   },
-  volcLertSettingsCard: {
+  exploresystmSettingsCard: {
     marginTop: 20,
     borderRadius: 24,
   },
-  volcLertSettingsCardInner: {
+  exploresystmSettingsCardInner: {
     padding: 20,
   },
-  volcLertSettingsRow: {
+  exploresystmSettingsRow: {
     minHeight: 44,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  volcLertSettingsLabel: {
+  exploresystmSettingsLabel: {
     color: '#fff',
     fontSize: 24,
     fontWeight: '700',
   },
-  volcLertDivider: {
+  exploresystmDivider: {
     height: 1,
     backgroundColor: 'rgba(255,255,255,0.45)',
     marginVertical: 4,
     marginBottom: 10,
   },
-  volcLertShareButtonWrap: {
+  exploresystmShareButtonWrap: {
     marginTop: 'auto',
   },
-  volcLertShareButton: {
+  exploresystmShareButton: {
     minHeight: 60,
     borderRadius: 999,
     flexDirection: 'row',
@@ -271,21 +240,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
-  volcLertShareButtonText: {
+  exploresystmShareButtonText: {
     color: '#fff',
     fontSize: 15,
     fontWeight: '700',
   },
-  volcLertDeleteButtonWrap: {
+  exploresystmDeleteButtonWrap: {
     marginTop: 12,
   },
-  volcLertDeleteButton: {
+  exploresystmDeleteButton: {
     minHeight: 56,
     borderRadius: 999,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertDeleteButtonText: {
+  exploresystmDeleteButtonText: {
     color: '#fff',
     fontSize: 15,
     fontWeight: '700',

@@ -1,6 +1,7 @@
-import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
+import Exploresystmsystlay from '../Explorresyystmcmpns/Exploresystmsystlay';
 
-import { useStore } from '../[lclertsystemstorggee]/volclertsystcntx';
+import LinearGradient from 'react-native-linear-gradient';
+import { useStore } from '../Explorresyystmstrgg/explorresyystmcontxx';
 
 import React, { useMemo, useRef, useState } from 'react';
 import {
@@ -14,21 +15,21 @@ import {
   View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
-import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
 
-type volcLertQuizOptionType = {
+import TouchableOpacity from '../Explorresyystmcmpns/Exploresystmsystprs';
+
+type exploresystmQuizOptionType = {
   text: string;
   isCorrect: boolean;
 };
 
-type volcLertQuizQuestionType = {
+type exploresystmQuizQuestionType = {
   id: number;
   question: string;
-  options: volcLertQuizOptionType[];
+  options: exploresystmQuizOptionType[];
 };
 
-const volcLertQuizQuestions: volcLertQuizQuestionType[] = [
+const exploresystmQuizQuestions: exploresystmQuizQuestionType[] = [
   {
     id: 1,
     question: "What is magma called when it reaches the Earth's surface?",
@@ -132,74 +133,75 @@ const volcLertQuizQuestions: volcLertQuizQuestionType[] = [
   },
 ];
 
-const volcLertGetLevel = (volcLertScore: number) => {
-  if (volcLertScore <= 2) {
+const exploresystmGetLevel = (exploresystmScore: number) => {
+  if (exploresystmScore <= 2) {
     return 'Beginner';
   }
-  if (volcLertScore <= 5) {
+  if (exploresystmScore <= 5) {
     return 'Explorer';
   }
-  if (volcLertScore <= 8) {
+  if (exploresystmScore <= 8) {
     return 'Volcano Enthusiast';
   }
   return 'Volcano Expert';
 };
 
-const Volclertsysttrqizz = () => {
+const Exploresystmsysttrqizz = () => {
   const navigation = useNavigation<any>();
-  const { volcLertVibration } = useStore();
-  const [volcLertQuestionIndex, setVolcLertQuestionIndex] = useState(0);
-  const [volcLertScore, setVolcLertScore] = useState(0);
-  const [volcLertSelectedOptionIndex, setVolcLertSelectedOptionIndex] =
+  const { exploresystmVibration } = useStore();
+  const [exploresystmQuestionIndex, setVolcLertQuestionIndex] = useState(0);
+  const [exploresystmScore, setVolcLertScore] = useState(0);
+  const [exploresystmSelectedOptionIndex, setVolcLertSelectedOptionIndex] =
     useState<number | null>(null);
-  const [volcLertIsFinished, setVolcLertIsFinished] = useState(false);
-  const volcLertShakeAnim = useRef(new Animated.Value(0)).current;
+  const [exploresystmIsFinished, setVolcLertIsFinished] = useState(false);
+  const exploresystmShakeAnim = useRef(new Animated.Value(0)).current;
 
-  const volcLertCurrentQuestion = volcLertQuizQuestions[volcLertQuestionIndex];
+  const exploresystmCurrentQuestion =
+    exploresystmQuizQuestions[exploresystmQuestionIndex];
 
-  const volcLertLevel = useMemo(() => {
-    return volcLertGetLevel(volcLertScore);
-  }, [volcLertScore]);
+  const exploresystmLevel = useMemo(() => {
+    return exploresystmGetLevel(exploresystmScore);
+  }, [exploresystmScore]);
 
-  const volcLertHandleBack = () => {
+  const exploresystmHandleBack = () => {
     navigation.goBack();
   };
 
-  const volcLertHandleOpenSettings = () => {
-    navigation.navigate('Volclertsysettngs');
+  const exploresystmHandleOpenSettings = () => {
+    navigation.navigate('Exploresystmsysettngs');
   };
 
-  const volcLertHandleSelectOption = (volcLertOptionIndex: number) => {
-    setVolcLertSelectedOptionIndex(volcLertOptionIndex);
+  const exploresystmHandleSelectOption = (exploresystmOptionIndex: number) => {
+    setVolcLertSelectedOptionIndex(exploresystmOptionIndex);
   };
 
-  const volcLertHandleMissingOptionFeedback = () => {
-    if (volcLertVibration) {
+  const exploresystmHandleMissingOptionFeedback = () => {
+    if (exploresystmVibration) {
       Vibration.vibrate(130);
     }
 
     Animated.sequence([
-      Animated.timing(volcLertShakeAnim, {
+      Animated.timing(exploresystmShakeAnim, {
         toValue: 8,
         duration: 45,
         useNativeDriver: true,
       }),
-      Animated.timing(volcLertShakeAnim, {
+      Animated.timing(exploresystmShakeAnim, {
         toValue: -8,
         duration: 45,
         useNativeDriver: true,
       }),
-      Animated.timing(volcLertShakeAnim, {
+      Animated.timing(exploresystmShakeAnim, {
         toValue: 6,
         duration: 40,
         useNativeDriver: true,
       }),
-      Animated.timing(volcLertShakeAnim, {
+      Animated.timing(exploresystmShakeAnim, {
         toValue: -6,
         duration: 40,
         useNativeDriver: true,
       }),
-      Animated.timing(volcLertShakeAnim, {
+      Animated.timing(exploresystmShakeAnim, {
         toValue: 0,
         duration: 35,
         useNativeDriver: true,
@@ -207,58 +209,61 @@ const Volclertsysttrqizz = () => {
     ]).start();
   };
 
-  const volcLertHandleNext = () => {
-    if (volcLertSelectedOptionIndex === null || !volcLertCurrentQuestion) {
-      volcLertHandleMissingOptionFeedback();
+  const exploresystmHandleNext = () => {
+    if (
+      exploresystmSelectedOptionIndex === null ||
+      !exploresystmCurrentQuestion
+    ) {
+      exploresystmHandleMissingOptionFeedback();
       return;
     }
 
-    const volcLertIsCorrect =
-      volcLertCurrentQuestion.options[volcLertSelectedOptionIndex]
+    const exploresystmIsCorrect =
+      exploresystmCurrentQuestion.options[exploresystmSelectedOptionIndex]
         ?.isCorrect === true;
-    const volcLertNextScore = volcLertIsCorrect
-      ? volcLertScore + 1
-      : volcLertScore;
-    const volcLertNextQuestionIndex = volcLertQuestionIndex + 1;
+    const exploresystmNextScore = exploresystmIsCorrect
+      ? exploresystmScore + 1
+      : exploresystmScore;
+    const exploresystmNextQuestionIndex = exploresystmQuestionIndex + 1;
 
-    setVolcLertScore(volcLertNextScore);
+    setVolcLertScore(exploresystmNextScore);
     setVolcLertSelectedOptionIndex(null);
 
-    if (volcLertNextQuestionIndex >= volcLertQuizQuestions.length) {
+    if (exploresystmNextQuestionIndex >= exploresystmQuizQuestions.length) {
       setVolcLertIsFinished(true);
       return;
     }
 
-    setVolcLertQuestionIndex(volcLertNextQuestionIndex);
+    setVolcLertQuestionIndex(exploresystmNextQuestionIndex);
   };
 
-  const volcLertHandleRestart = () => {
+  const exploresystmHandleRestart = () => {
     setVolcLertQuestionIndex(0);
     setVolcLertScore(0);
     setVolcLertSelectedOptionIndex(null);
     setVolcLertIsFinished(false);
   };
 
-  const volcLertHandleShareResult = () => {
+  const exploresystmHandleShareResult = () => {
     Share.share({
       title: 'Quiz Result',
-      message: `Quiz Result: ${volcLertScore}/${volcLertQuizQuestions.length}. Level: ${volcLertLevel}.`,
+      message: `Quiz Result: ${exploresystmScore}/${exploresystmQuizQuestions.length}. Level: ${exploresystmLevel}.`,
     }).catch(() => {
       Alert.alert('Error', 'Could not open share dialog.');
     });
   };
 
-  if (!volcLertCurrentQuestion && !volcLertIsFinished) {
+  if (!exploresystmCurrentQuestion && !exploresystmIsFinished) {
     return null;
   }
 
   return (
-    <Volclertsystlay>
-      <View style={styles.volcLertContainer}>
-        <View style={styles.volcLertTopBar}>
+    <Exploresystmsystlay>
+      <View style={styles.exploresystmContainer}>
+        <View style={styles.exploresystmTopBar}>
           <TouchableOpacity
-            style={styles.volcLertTopIconButton}
-            onPress={volcLertHandleBack}
+            style={styles.exploresystmTopIconButton}
+            onPress={exploresystmHandleBack}
             activeOpacity={0.8}
           >
             <Image
@@ -267,7 +272,7 @@ const Volclertsysttrqizz = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={volcLertHandleOpenSettings}
+            onPress={exploresystmHandleOpenSettings}
             activeOpacity={0.8}
           >
             <Image
@@ -276,41 +281,43 @@ const Volclertsysttrqizz = () => {
           </TouchableOpacity>
         </View>
 
-        {!volcLertIsFinished && (
+        {!exploresystmIsFinished && (
           <Image
             source={require('../../elements/images/volclertsysmqz.png')}
-            style={styles.volcLertQuizImage}
+            style={styles.exploresystmQuizImage}
           />
         )}
 
-        {!volcLertIsFinished ? (
-          <View style={styles.volcLertQuizCard}>
-            <Text style={styles.volcLertProgressText}>
-              {volcLertQuestionIndex + 1}/{volcLertQuizQuestions.length} Your
-              score: {volcLertScore}
+        {!exploresystmIsFinished ? (
+          <View style={styles.exploresystmQuizCard}>
+            <Text style={styles.exploresystmProgressText}>
+              {exploresystmQuestionIndex + 1}/{exploresystmQuizQuestions.length}{' '}
+              Your score: {exploresystmScore}
             </Text>
 
-            <View style={styles.volcLertQuestionWrap}>
-              <Text style={styles.volcLertQuestionText}>
-                {volcLertCurrentQuestion.question}
+            <View style={styles.exploresystmQuestionWrap}>
+              <Text style={styles.exploresystmQuestionText}>
+                {exploresystmCurrentQuestion.question}
               </Text>
             </View>
 
-            <View style={styles.volcLertOptionsWrap}>
-              {volcLertCurrentQuestion.options.map(
-                (volcLertOption, volcLertIndex) => (
+            <View style={styles.exploresystmOptionsWrap}>
+              {exploresystmCurrentQuestion.options.map(
+                (exploresystmOption, exploresystmIndex) => (
                   <TouchableOpacity
-                    key={`${volcLertCurrentQuestion.id}-${volcLertOption.text}`}
+                    key={`${exploresystmCurrentQuestion.id}-${exploresystmOption.text}`}
                     activeOpacity={0.85}
-                    onPress={() => volcLertHandleSelectOption(volcLertIndex)}
+                    onPress={() =>
+                      exploresystmHandleSelectOption(exploresystmIndex)
+                    }
                     style={[
-                      styles.volcLertOptionButton,
-                      volcLertSelectedOptionIndex === volcLertIndex &&
-                        styles.volcLertOptionButtonActive,
+                      styles.exploresystmOptionButton,
+                      exploresystmSelectedOptionIndex === exploresystmIndex &&
+                        styles.exploresystmOptionButtonActive,
                     ]}
                   >
-                    <Text style={styles.volcLertOptionText}>
-                      {volcLertOption.text}
+                    <Text style={styles.exploresystmOptionText}>
+                      {exploresystmOption.text}
                     </Text>
                   </TouchableOpacity>
                 ),
@@ -319,64 +326,67 @@ const Volclertsysttrqizz = () => {
 
             <Animated.View
               style={{
-                transform: [{ translateX: volcLertShakeAnim }],
+                transform: [{ translateX: exploresystmShakeAnim }],
               }}
             >
               <TouchableOpacity
-                style={styles.volcLertNextButtonWrap}
-                onPress={volcLertHandleNext}
+                style={styles.exploresystmNextButtonWrap}
+                onPress={exploresystmHandleNext}
                 activeOpacity={0.85}
               >
                 <LinearGradient
                   colors={['#CF4E27', '#ED7635']}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
-                  style={styles.volcLertNextButton}
+                  style={styles.exploresystmNextButton}
                 >
-                  <Text style={styles.volcLertNextButtonText}>Next</Text>
+                  <Text style={styles.exploresystmNextButtonText}>Next</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </Animated.View>
           </View>
         ) : (
-          <View style={styles.volcLertResultWrap}>
+          <View style={styles.exploresystmResultWrap}>
             <Image
               source={require('../../elements/images/volclertsysmqzres.png')}
-              style={styles.volcLertResultImage}
+              style={styles.exploresystmResultImage}
             />
 
             <LinearGradient
               colors={['#612F47', '#8A3844', '#B13D2F']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
-              style={styles.volcLertResultCard}
+              style={styles.exploresystmResultCard}
             >
-              <View style={styles.volcLertResultCardContent}>
-                <Text style={styles.volcLertProgressText}>
-                  {volcLertQuizQuestions.length}/{volcLertQuizQuestions.length}{' '}
-                  Your score: {volcLertScore}
+              <View style={styles.exploresystmResultCardContent}>
+                <Text style={styles.exploresystmProgressText}>
+                  {exploresystmQuizQuestions.length}/
+                  {exploresystmQuizQuestions.length} Your score:{' '}
+                  {exploresystmScore}
                 </Text>
 
-                <View style={styles.volcLertLevelWrap}>
-                  <Text style={styles.volcLertLevelLabel}>Your LvL is</Text>
-                  <Text style={styles.volcLertLevelValue}>{volcLertLevel}</Text>
+                <View style={styles.exploresystmLevelWrap}>
+                  <Text style={styles.exploresystmLevelLabel}>Your LvL is</Text>
+                  <Text style={styles.exploresystmLevelValue}>
+                    {exploresystmLevel}
+                  </Text>
                 </View>
               </View>
             </LinearGradient>
 
-            <View style={styles.volcLertResultActions}>
+            <View style={styles.exploresystmResultActions}>
               <TouchableOpacity
-                style={styles.volcLertShareButtonWrap}
-                onPress={volcLertHandleShareResult}
+                style={styles.exploresystmShareButtonWrap}
+                onPress={exploresystmHandleShareResult}
                 activeOpacity={0.85}
               >
                 <LinearGradient
                   colors={['#CF4E27', '#ED7635']}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
-                  style={styles.volcLertShareButton}
+                  style={styles.exploresystmShareButton}
                 >
-                  <Text style={styles.volcLertShareButtonText}>
+                  <Text style={styles.exploresystmShareButtonText}>
                     Share the result
                   </Text>
                   <Image
@@ -386,14 +396,14 @@ const Volclertsysttrqizz = () => {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={volcLertHandleRestart}
+                onPress={exploresystmHandleRestart}
                 activeOpacity={0.85}
               >
                 <LinearGradient
                   colors={['#CF4E27', '#ED7635']}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
-                  style={styles.volcLertRestartButton}
+                  style={styles.exploresystmRestartButton}
                 >
                   <Image
                     source={require('../../elements/images/volclertsysrel.png')}
@@ -404,72 +414,81 @@ const Volclertsysttrqizz = () => {
           </View>
         )}
       </View>
-    </Volclertsystlay>
+    </Exploresystmsystlay>
   );
 };
 
-export default Volclertsysttrqizz;
+export default Exploresystmsysttrqizz;
 
 const styles = StyleSheet.create({
-  volcLertContainer: {
-    flex: 1,
-    paddingTop: 60,
-    paddingBottom: 30,
-    paddingHorizontal: 22,
-  },
-  volcLertTopBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  volcLertTopIconButton: {
+  exploresystmTopIconButton: {
     minWidth: 36,
     minHeight: 36,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertQuizImage: {
+
+  exploresystmContainer: {
+    flex: 1,
+    paddingTop: 60,
+    paddingBottom: 30,
+
+    paddingHorizontal: 22,
+  },
+  exploresystmTopBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
+    justifyContent: 'space-between',
+  },
+
+  exploresystmQuizImage: {
     width: 140,
     height: 140,
     resizeMode: 'contain',
     alignSelf: 'center',
+
     marginTop: 10,
     marginBottom: 8,
   },
-  volcLertQuizCard: {
+
+  exploresystmQuizCard: {
     borderRadius: 24,
     overflow: 'hidden',
+
     paddingBottom: 22,
     backgroundColor: '#8A3844',
   },
-  volcLertProgressText: {
+
+  exploresystmProgressText: {
     color: '#fff',
     fontSize: 18,
     lineHeight: 22,
     fontWeight: '700',
     textAlign: 'center',
+
     marginVertical: 15,
   },
-  volcLertQuestionWrap: {
+  exploresystmQuestionWrap: {
     minHeight: 150,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
     backgroundColor: '#0000001A',
   },
-  volcLertQuestionText: {
+  exploresystmQuestionText: {
     color: '#fff',
     fontSize: 15,
     paddingHorizontal: 20,
     textAlign: 'center',
     fontWeight: '700',
   },
-  volcLertOptionsWrap: {
+  exploresystmOptionsWrap: {
     paddingHorizontal: 24,
     paddingTop: 16,
     rowGap: 12,
   },
-  volcLertOptionButton: {
+  exploresystmOptionButton: {
     minHeight: 54,
     borderRadius: 12,
     backgroundColor: '#7D3545',
@@ -478,72 +497,72 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'transparent',
   },
-  volcLertOptionButtonActive: {
+  exploresystmOptionButtonActive: {
     borderColor: '#fff',
     backgroundColor: 'transparent',
   },
-  volcLertOptionText: {
+  exploresystmOptionText: {
     color: '#EFDCD0',
     fontSize: 16,
     fontWeight: '500',
   },
-  volcLertNextButtonWrap: {
+  exploresystmNextButtonWrap: {
     marginTop: 22,
     paddingHorizontal: 24,
   },
-  volcLertNextButton: {
+  exploresystmNextButton: {
     minHeight: 50,
     borderRadius: 199,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertNextButtonText: {
+  exploresystmNextButtonText: {
     color: '#fff',
     fontSize: 20,
     fontWeight: '700',
   },
-  volcLertResultWrap: {
+  exploresystmResultWrap: {
     flex: 1,
     justifyContent: 'center',
   },
-  volcLertResultImage: {
+  exploresystmResultImage: {
     alignSelf: 'center',
     marginBottom: 20,
   },
-  volcLertResultCard: {
+  exploresystmResultCard: {
     borderRadius: 24,
     overflow: 'hidden',
     marginTop: 4,
     paddingBottom: 18,
   },
-  volcLertResultCardContent: {
+  exploresystmResultCardContent: {
     padding: 30,
   },
-  volcLertLevelWrap: {
+  exploresystmLevelWrap: {
     marginTop: 25,
     alignItems: 'center',
   },
-  volcLertLevelLabel: {
+  exploresystmLevelLabel: {
     color: '#fff',
     fontSize: 18,
     fontWeight: '400',
     marginBottom: 2,
   },
-  volcLertLevelValue: {
+  exploresystmLevelValue: {
     color: '#fff',
     fontSize: 28,
     fontWeight: '800',
   },
-  volcLertResultActions: {
+  exploresystmResultActions: {
     marginTop: 18,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
   },
-  volcLertShareButtonWrap: {
+  exploresystmShareButtonWrap: {
     flex: 1,
   },
-  volcLertShareButton: {
+  exploresystmShareButton: {
     minHeight: 52,
     borderRadius: 999,
     flexDirection: 'row',
@@ -551,12 +570,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 10,
   },
-  volcLertShareButtonText: {
+  exploresystmShareButtonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: '700',
   },
-  volcLertRestartButton: {
+  exploresystmRestartButton: {
     width: 52,
     height: 52,
     borderRadius: 26,
@@ -564,7 +583,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertRestartIcon: {
+  exploresystmRestartIcon: {
     color: '#fff',
     fontSize: 24,
     fontWeight: '700',

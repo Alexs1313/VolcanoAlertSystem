@@ -5,7 +5,7 @@ import { ImageBackground, ScrollView, StyleSheet, View } from 'react-native';
 import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-const volcLertLoaderHTML = `
+const exploresystmLoaderHTML = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,32 +78,32 @@ const volcLertLoaderHTML = `
 </html>
 `;
 
-const Volclertsystlodr = () => {
+const Exploresystmsystlodr = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const volcLertTimer = setTimeout(() => {
-      navigation.replace('Volclertsystonbrdn' as never);
+    const exploresystmTimer = setTimeout(() => {
+      navigation.replace('Exploresystmsystonbrdn' as never);
     }, 6000);
 
-    return () => clearTimeout(volcLertTimer);
+    return () => clearTimeout(exploresystmTimer);
   }, [navigation]);
 
   return (
     <ImageBackground
       source={require('../../elements/images/volclertsystloadrback.png')}
-      style={styles.volcLertImageBackground}
+      style={styles.exploresystmImageBackground}
       resizeMode="cover"
     >
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.volcLertWebviewDock}>
+        <View style={styles.exploresystmWebviewDock}>
           <WebView
             originWhitelist={['*']}
-            source={{ html: volcLertLoaderHTML }}
-            style={styles.volcLertWebview}
+            source={{ html: exploresystmLoaderHTML }}
+            style={styles.exploresystmWebview}
             scrollEnabled={false}
           />
         </View>
@@ -112,18 +112,18 @@ const Volclertsystlodr = () => {
   );
 };
 
-export default Volclertsystlodr;
+export default Exploresystmsystlodr;
 
 const styles = StyleSheet.create({
-  volcLertImageBackground: {
+  exploresystmImageBackground: {
     flex: 1,
   },
-  volcLertWebviewDock: {
+  exploresystmWebviewDock: {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
   },
-  volcLertWebview: {
+  exploresystmWebview: {
     backgroundColor: 'transparent',
     width: 260,
     height: 250,

@@ -2,20 +2,23 @@
 
 import LinearGradient from 'react-native-linear-gradient';
 
-import Volclertsystlay from '../lclertsystemcmpnts/Volclertsystlay';
+import Exploresystmsystlay from '../Explorresyystmcmpns/Exploresystmsystlay';
+
 import React, { useCallback, useMemo, useState } from 'react';
+
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
+
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import TouchableOpacity from '../lclertsystemcmpnts/Volclertsystprs';
+import TouchableOpacity from '../Explorresyystmcmpns/Exploresystmsystprs';
 
-type volcLertVolcanoStatus = 'active' | 'dormant' | 'extinct';
-type volcLertFilterStatus = volcLertVolcanoStatus | 'all';
+type exploresystmVolcanoStatus = 'active' | 'dormant' | 'extinct';
+type exploresystmFilterStatus = exploresystmVolcanoStatus | 'all';
 
-export type volcLertVolcanoType = {
+export type exploresystmVolcanoType = {
   id: string;
   name: string;
-  status: volcLertVolcanoStatus;
+  status: exploresystmVolcanoStatus;
   location: string;
   coordinates: string;
   height: string;
@@ -25,7 +28,7 @@ export type volcLertVolcanoType = {
   image: number;
 };
 
-const volcLertVolcanoes: volcLertVolcanoType[] = [
+const exploresystmVolcanoes: exploresystmVolcanoType[] = [
   {
     id: 'etna',
     name: 'Mount Etna',
@@ -145,53 +148,56 @@ const volcLertVolcanoes: volcLertVolcanoType[] = [
   },
 ];
 
-const volcLertFilterOptions: { id: volcLertFilterStatus; label: string }[] = [
+const exploresystmFilterOptions: {
+  id: exploresystmFilterStatus;
+  label: string;
+}[] = [
   { id: 'active', label: 'Active Volcanoes' },
   { id: 'dormant', label: 'Dormant Volcanoes' },
   { id: 'extinct', label: 'Extinct Volcanoes' },
   { id: 'all', label: 'All' },
 ];
 
-const volcLertFilterTitles: Record<volcLertFilterStatus, string> = {
+const exploresystmFilterTitles: Record<exploresystmFilterStatus, string> = {
   active: '🌋 Active Volcanoes',
   dormant: '🌋 Dormant Volcanoes',
   extinct: '🌋 Extinct Volcanoes',
   all: '🌋 All Volcanoes',
 };
 
-const volcLertSavedVolcanoesStorageKey = 'volcLertSavedVolcanoIds';
+const exploresystmSavedVolcanoesStorageKey = 'exploresystmSavedVolcanoIds';
 
-const Volclertsystlist = () => {
+const Exploresystmsystlist = () => {
   const navigation = useNavigation<any>();
-  const [volcLertSearchValue, setVolcLertSearchValue] = useState('');
-  const [volcLertSelectedFilter, setVolcLertSelectedFilter] =
-    useState<volcLertFilterStatus>('all');
-  const [volcLertIsFilterOpen, setVolcLertIsFilterOpen] = useState(false);
-  const [volcLertSavedVolcanoIds, setVolcLertSavedVolcanoIds] = useState<
+  const [exploresystmSearchValue, setVolcLertSearchValue] = useState('');
+  const [exploresystmSelectedFilter, setVolcLertSelectedFilter] =
+    useState<exploresystmFilterStatus>('all');
+  const [exploresystmIsFilterOpen, setVolcLertIsFilterOpen] = useState(false);
+  const [exploresystmSavedVolcanoIds, setVolcLertSavedVolcanoIds] = useState<
     string[]
   >([]);
 
-  const volcLertFilteredVolcanoes = useMemo(() => {
-    return volcLertVolcanoes.filter(volcLertVolcano => {
-      const volcLertMatchesStatus =
-        volcLertSelectedFilter === 'all' ||
-        volcLertVolcano.status === volcLertSelectedFilter;
-      const volcLertMatchesSearch = volcLertVolcano.name
+  const exploresystmFilteredVolcanoes = useMemo(() => {
+    return exploresystmVolcanoes.filter(exploresystmVolcano => {
+      const exploresystmMatchesStatus =
+        exploresystmSelectedFilter === 'all' ||
+        exploresystmVolcano.status === exploresystmSelectedFilter;
+      const exploresystmMatchesSearch = exploresystmVolcano.name
         .toLowerCase()
-        .includes(volcLertSearchValue.trim().toLowerCase());
-      return volcLertMatchesStatus && volcLertMatchesSearch;
+        .includes(exploresystmSearchValue.trim().toLowerCase());
+      return exploresystmMatchesStatus && exploresystmMatchesSearch;
     });
-  }, [volcLertSearchValue, volcLertSelectedFilter]);
+  }, [exploresystmSearchValue, exploresystmSelectedFilter]);
 
-  const volcLertLoadSavedVolcanoIds = useCallback(async () => {
+  const exploresystmLoadSavedVolcanoIds = useCallback(async () => {
     try {
-      const volcLertSavedIdsRaw = await AsyncStorage.getItem(
-        volcLertSavedVolcanoesStorageKey,
+      const exploresystmSavedIdsRaw = await AsyncStorage.getItem(
+        exploresystmSavedVolcanoesStorageKey,
       );
-      const volcLertSavedIds: string[] = volcLertSavedIdsRaw
-        ? JSON.parse(volcLertSavedIdsRaw)
+      const exploresystmSavedIds: string[] = exploresystmSavedIdsRaw
+        ? JSON.parse(exploresystmSavedIdsRaw)
         : [];
-      setVolcLertSavedVolcanoIds(volcLertSavedIds);
+      setVolcLertSavedVolcanoIds(exploresystmSavedIds);
     } catch {
       setVolcLertSavedVolcanoIds([]);
     }
@@ -199,57 +205,59 @@ const Volclertsystlist = () => {
 
   useFocusEffect(
     useCallback(() => {
-      volcLertLoadSavedVolcanoIds();
-    }, [volcLertLoadSavedVolcanoIds]),
+      exploresystmLoadSavedVolcanoIds();
+    }, [exploresystmLoadSavedVolcanoIds]),
   );
 
-  const volcLertHandleBack = () => {
+  const exploresystmHandleBack = () => {
     navigation.goBack();
   };
 
-  const volcLertHandleToggleFilter = () => {
-    setVolcLertIsFilterOpen(volcLertPrevState => !volcLertPrevState);
+  const exploresystmHandleToggleFilter = () => {
+    setVolcLertIsFilterOpen(exploresystmPrevState => !exploresystmPrevState);
   };
 
-  const volcLertHandleSelectFilter = (volcLertFilter: volcLertFilterStatus) => {
-    setVolcLertSelectedFilter(volcLertFilter);
+  const exploresystmHandleSelectFilter = (
+    exploresystmFilter: exploresystmFilterStatus,
+  ) => {
+    setVolcLertSelectedFilter(exploresystmFilter);
     setVolcLertIsFilterOpen(false);
   };
 
-  const volcLertHandleOpenSettings = () => {
-    navigation.navigate('Volclertsysettngs' as never);
+  const exploresystmHandleOpenSettings = () => {
+    navigation.navigate('Exploresystmsysettngs' as never);
   };
 
-  const volcLertHandleOpenVolcanoDetails = (
-    volcLertVolcano: volcLertVolcanoType,
+  const exploresystmHandleOpenVolcanoDetails = (
+    exploresystmVolcano: exploresystmVolcanoType,
   ) => {
     navigation.navigate(
-      'Volclertsystdet' as never,
-      { volcLertVolcano } as never,
+      'Exploresystmsystdet' as never,
+      { exploresystmVolcano } as never,
     );
   };
 
-  const volcLertHandleOpenRandomVolcano = () => {
-    if (volcLertFilteredVolcanoes.length === 0) {
+  const exploresystmHandleOpenRandomVolcano = () => {
+    if (exploresystmFilteredVolcanoes.length === 0) {
       return;
     }
 
-    const volcLertRandomIndex = Math.floor(
-      Math.random() * volcLertFilteredVolcanoes.length,
+    const exploresystmRandomIndex = Math.floor(
+      Math.random() * exploresystmFilteredVolcanoes.length,
     );
-    const volcLertRandomVolcano =
-      volcLertFilteredVolcanoes[volcLertRandomIndex];
-    volcLertHandleOpenVolcanoDetails(volcLertRandomVolcano);
+    const exploresystmRandomVolcano =
+      exploresystmFilteredVolcanoes[exploresystmRandomIndex];
+    exploresystmHandleOpenVolcanoDetails(exploresystmRandomVolcano);
   };
 
   return (
     <>
-      <Volclertsystlay>
-        <View style={styles.volcLertContainer}>
-          <View style={styles.volcLertTopBar}>
+      <Exploresystmsystlay>
+        <View style={styles.exploresystmContainer}>
+          <View style={styles.exploresystmTopBar}>
             <TouchableOpacity
-              style={styles.volcLertTopIconButton}
-              onPress={volcLertHandleBack}
+              style={styles.exploresystmTopIconButton}
+              onPress={exploresystmHandleBack}
               activeOpacity={0.8}
             >
               <Image
@@ -257,10 +265,10 @@ const Volclertsystlist = () => {
               />
             </TouchableOpacity>
 
-            <View style={styles.volcLertTopRightActions}>
+            <View style={styles.exploresystmTopRightActions}>
               <TouchableOpacity
-                style={styles.volcLertTopSmallRoundButton}
-                onPress={volcLertHandleToggleFilter}
+                style={styles.exploresystmTopSmallRoundButton}
+                onPress={exploresystmHandleToggleFilter}
                 activeOpacity={0.8}
               >
                 <Image
@@ -269,7 +277,7 @@ const Volclertsystlist = () => {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={volcLertHandleOpenSettings}
+                onPress={exploresystmHandleOpenSettings}
                 activeOpacity={0.8}
               >
                 <Image
@@ -279,66 +287,72 @@ const Volclertsystlist = () => {
             </View>
           </View>
 
-          {volcLertIsFilterOpen && (
-            <View style={styles.volcLertFilterMenu}>
-              {volcLertFilterOptions.map(volcLertOption => (
+          {exploresystmIsFilterOpen && (
+            <View style={styles.exploresystmFilterMenu}>
+              {exploresystmFilterOptions.map(exploresystmOption => (
                 <TouchableOpacity
-                  key={volcLertOption.id}
-                  style={styles.volcLertFilterMenuItem}
+                  key={exploresystmOption.id}
+                  style={styles.exploresystmFilterMenuItem}
                   activeOpacity={0.85}
-                  onPress={() => volcLertHandleSelectFilter(volcLertOption.id)}
+                  onPress={() =>
+                    exploresystmHandleSelectFilter(exploresystmOption.id)
+                  }
                 >
-                  <Text style={styles.volcLertFilterMenuItemText}>
-                    {volcLertOption.label}
+                  <Text style={styles.exploresystmFilterMenuItemText}>
+                    {exploresystmOption.label}
                   </Text>
                 </TouchableOpacity>
               ))}
             </View>
           )}
 
-          <View style={styles.volcLertSearchWrap}>
+          <View style={styles.exploresystmSearchWrap}>
             <Image
               source={require('../../elements/images/volclertsyoserc.png')}
             />
             <TextInput
-              value={volcLertSearchValue}
+              value={exploresystmSearchValue}
               onChangeText={setVolcLertSearchValue}
               placeholder="Find a volcano by name"
               placeholderTextColor="#E8D8CEB0"
-              style={styles.volcLertSearchInput}
+              style={styles.exploresystmSearchInput}
             />
           </View>
 
-          {volcLertFilteredVolcanoes.length === 0 ? (
-            <View style={styles.volcLertEmptyWrap}>
-              <Text style={styles.volcLertEmptyText}>No volcanoes found.</Text>
+          {exploresystmFilteredVolcanoes.length === 0 ? (
+            <View style={styles.exploresystmEmptyWrap}>
+              <Text style={styles.exploresystmEmptyText}>
+                No volcanoes found.
+              </Text>
             </View>
           ) : (
-            volcLertFilteredVolcanoes.map(volcLertVolcano => (
+            exploresystmFilteredVolcanoes.map(exploresystmVolcano => (
               <TouchableOpacity
-                key={volcLertVolcano.id}
+                key={exploresystmVolcano.id}
                 activeOpacity={0.9}
                 onPress={() =>
-                  volcLertHandleOpenVolcanoDetails(volcLertVolcano)
+                  exploresystmHandleOpenVolcanoDetails(exploresystmVolcano)
                 }
-                style={styles.volcLertCardWrap}
+                style={styles.exploresystmCardWrap}
               >
                 <LinearGradient
                   colors={['#612F47', '#8A3844', '#B13D2F']}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
-                  style={styles.volcLertCard}
+                  style={styles.exploresystmCard}
                 >
                   <View>
-                    <View style={styles.volcLertCardTitleRow}>
-                      <Text style={styles.volcLertCardTitle}>
-                        {volcLertVolcano.name}
+                    <View style={styles.exploresystmCardTitleRow}>
+                      <Text style={styles.exploresystmCardTitle}>
+                        {exploresystmVolcano.name}
                       </Text>
 
-                      {volcLertSavedVolcanoIds.includes(volcLertVolcano.id) && (
+                      {exploresystmSavedVolcanoIds.includes(
+                        exploresystmVolcano.id,
+                      ) && (
                         <Image
                           source={require('../../elements/images/volclertsmsaved.png')}
-                          style={styles.volcLertSavedIcon}
+                          style={styles.exploresystmSavedIcon}
                         />
                       )}
                     </View>
@@ -350,23 +364,23 @@ const Volclertsystlist = () => {
                       }}
                     >
                       <Image
-                        source={volcLertVolcano.image}
-                        style={styles.volcLertCardImage}
+                        source={exploresystmVolcano.image}
+                        style={styles.exploresystmCardImage}
                         resizeMode="cover"
                       />
 
-                      <View style={styles.volcLertCardInfoWrap}>
-                        <Text style={styles.volcLertCardInfoText}>
-                          <Text style={styles.volcLertCardInfoBold}>
+                      <View style={styles.exploresystmCardInfoWrap}>
+                        <Text style={styles.exploresystmCardInfoText}>
+                          <Text style={styles.exploresystmCardInfoBold}>
                             Location:{' '}
                           </Text>
-                          {volcLertVolcano.location}
+                          {exploresystmVolcano.location}
                         </Text>
-                        <Text style={styles.volcLertCardInfoText}>
-                          <Text style={styles.volcLertCardInfoBold}>
+                        <Text style={styles.exploresystmCardInfoText}>
+                          <Text style={styles.exploresystmCardInfoBold}>
                             Height:{' '}
                           </Text>
-                          {volcLertVolcano.height}
+                          {exploresystmVolcano.height}
                         </Text>
                       </View>
                     </View>
@@ -376,19 +390,19 @@ const Volclertsystlist = () => {
             ))
           )}
         </View>
-      </Volclertsystlay>
+      </Exploresystmsystlay>
       <TouchableOpacity
-        style={styles.volcLertRandomButtonWrap}
+        style={styles.exploresystmRandomButtonWrap}
         activeOpacity={0.85}
-        onPress={volcLertHandleOpenRandomVolcano}
+        onPress={exploresystmHandleOpenRandomVolcano}
       >
         <LinearGradient
           colors={['#CF4E27', '#ED7635']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          style={styles.volcLertRandomButton}
+          style={styles.exploresystmRandomButton}
         >
-          <Text style={styles.volcLertRandomButtonText}>
+          <Text style={styles.exploresystmRandomButtonText}>
             Open a random volcano
           </Text>
         </LinearGradient>
@@ -397,37 +411,37 @@ const Volclertsystlist = () => {
   );
 };
 
-export default Volclertsystlist;
+export default Exploresystmsystlist;
 
 const styles = StyleSheet.create({
-  volcLertContainer: {
+  exploresystmContainer: {
     flex: 1,
     paddingTop: 60,
     paddingBottom: 110,
     paddingHorizontal: 22,
   },
-  volcLertTopBar: {
+  exploresystmTopBar: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  volcLertTopIconButton: {
+  exploresystmTopIconButton: {
     minWidth: 36,
     minHeight: 36,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertBackIcon: {
+  exploresystmBackIcon: {
     fontSize: 34,
     color: '#FF8E3A',
     fontWeight: '700',
   },
-  volcLertTopRightActions: {
+  exploresystmTopRightActions: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 16,
   },
-  volcLertTopSmallRoundButton: {
+  exploresystmTopSmallRoundButton: {
     width: 40,
     height: 40,
     borderRadius: 28,
@@ -435,12 +449,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertFilterIcon: {
+  exploresystmFilterIcon: {
     color: '#fff',
     fontSize: 20,
     fontWeight: '700',
   },
-  volcLertFilterMenu: {
+  exploresystmFilterMenu: {
     position: 'absolute',
     top: 86,
     right: 75,
@@ -450,18 +464,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#D4572E',
     zIndex: 10,
   },
-  volcLertFilterMenuItem: {
+  exploresystmFilterMenuItem: {
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255,255,255,0.15)',
   },
-  volcLertFilterMenuItemText: {
+  exploresystmFilterMenuItemText: {
     color: '#fff',
     fontSize: 12,
     fontWeight: '500',
   },
-  volcLertSearchWrap: {
+  exploresystmSearchWrap: {
     marginTop: 18,
     minHeight: 52,
     borderRadius: 26,
@@ -473,56 +487,56 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     gap: 10,
   },
-  volcLertSearchIcon: {
+  exploresystmSearchIcon: {
     color: '#fff',
     fontSize: 20,
   },
-  volcLertSearchInput: {
+  exploresystmSearchInput: {
     flex: 1,
     color: '#fff',
     fontSize: 16,
     paddingVertical: 8,
   },
-  volcLertSectionTitle: {
+  exploresystmSectionTitle: {
     marginTop: 16,
     color: '#fff',
     fontSize: 23,
     fontWeight: '700',
   },
-  volcLertRandomButtonWrap: {
+  exploresystmRandomButtonWrap: {
     position: 'absolute',
     bottom: 35,
     width: '90%',
     justifyContent: 'center',
     alignSelf: 'center',
   },
-  volcLertRandomButton: {
+  exploresystmRandomButton: {
     minHeight: 56,
     borderRadius: 999,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertRandomButtonText: {
+  exploresystmRandomButtonText: {
     color: '#fff',
     fontSize: 17,
     fontWeight: '700',
   },
-  volcLertEmptyWrap: {
+  exploresystmEmptyWrap: {
     marginTop: 24,
     alignItems: 'center',
   },
-  volcLertEmptyText: {
+  exploresystmEmptyText: {
     color: '#fff',
     fontSize: 16,
   },
-  volcLertCardWrap: {
+  exploresystmCardWrap: {
     marginTop: 14,
   },
-  volcLertCard: {
+  exploresystmCard: {
     borderRadius: 24,
     overflow: 'hidden',
   },
-  volcLertCardTitle: {
+  exploresystmCardTitle: {
     color: '#fff',
     textAlign: 'center',
     fontSize: 18,
@@ -530,35 +544,35 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     marginBottom: 15,
   },
-  volcLertCardTitleRow: {
+  exploresystmCardTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
   },
-  volcLertSavedIcon: {
+  exploresystmSavedIcon: {
     width: 24,
     height: 24,
     resizeMode: 'contain',
     position: 'absolute',
     right: 15,
   },
-  volcLertCardImage: {
+  exploresystmCardImage: {
     width: '100%',
     height: 130,
   },
-  volcLertCardInfoWrap: {
+  exploresystmCardInfoWrap: {
     marginTop: 10,
     marginBottom: 4,
   },
-  volcLertCardInfoText: {
+  exploresystmCardInfoText: {
     color: '#F4E6DC',
     fontSize: 12,
     lineHeight: 22,
     marginTop: 2,
     fontWeight: '400',
   },
-  volcLertCardInfoBold: {
+  exploresystmCardInfoBold: {
     color: '#fff',
     fontWeight: '700',
   },
@@ -575,15 +589,15 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-import Volclertsystlay from '../Volclertsystemcmpnt/Volclertsystlay';
+import Exploresystmsystlay from '../Exploresystmsystemcmpnt/Exploresystmsystlay';
 
-type volcLertVolcanoStatus = 'active' | 'dormant' | 'extinct';
-type volcLertFilterStatus = volcLertVolcanoStatus | 'all';
+type exploresystmVolcanoStatus = 'active' | 'dormant' | 'extinct';
+type exploresystmFilterStatus = exploresystmVolcanoStatus | 'all';
 
-export type volcLertVolcanoType = {
+export type exploresystmVolcanoType = {
   id: string;
   name: string;
-  status: volcLertVolcanoStatus;
+  status: exploresystmVolcanoStatus;
   location: string;
   coordinates: string;
   height: string;
@@ -593,7 +607,7 @@ export type volcLertVolcanoType = {
   image: number;
 };
 
-const volcLertVolcanoes: volcLertVolcanoType[] = [
+const exploresystmVolcanoes: exploresystmVolcanoType[] = [
   {
     id: 'etna',
     name: 'Mount Etna',
@@ -713,158 +727,158 @@ const volcLertVolcanoes: volcLertVolcanoType[] = [
   },
 ];
 
-const volcLertFilterOptions: { id: volcLertFilterStatus; label: string }[] = [
+const exploresystmFilterOptions: { id: exploresystmFilterStatus; label: string }[] = [
   { id: 'active', label: 'Active Volcanoes' },
   { id: 'dormant', label: 'Dormant Volcanoes' },
   { id: 'extinct', label: 'Extinct Volcanoes' },
   { id: 'all', label: 'All' },
 ];
 
-const volcLertFilterTitles: Record<volcLertFilterStatus, string> = {
+const exploresystmFilterTitles: Record<exploresystmFilterStatus, string> = {
   active: '🌋 Active Volcanoes',
   dormant: '🌋 Dormant Volcanoes',
   extinct: '🌋 Extinct Volcanoes',
   all: '🌋 All Volcanoes',
 };
 
-const Volclertsystlist = () => {
+const Exploresystmsystlist = () => {
   const navigation = useNavigation();
-  const [volcLertSearchValue, setVolcLertSearchValue] = useState('');
-  const [volcLertSelectedFilter, setVolcLertSelectedFilter] =
-    useState<volcLertFilterStatus>('all');
-  const [volcLertIsFilterOpen, setVolcLertIsFilterOpen] = useState(false);
+  const [exploresystmSearchValue, setVolcLertSearchValue] = useState('');
+  const [exploresystmSelectedFilter, setVolcLertSelectedFilter] =
+    useState<exploresystmFilterStatus>('all');
+  const [exploresystmIsFilterOpen, setVolcLertIsFilterOpen] = useState(false);
 
-  const volcLertFilteredVolcanoes = useMemo(() => {
-    return volcLertVolcanoes.filter(volcLertVolcano => {
-      const volcLertMatchesStatus =
-        volcLertSelectedFilter === 'all' ||
-        volcLertVolcano.status === volcLertSelectedFilter;
-      const volcLertMatchesSearch = volcLertVolcano.name
+  const exploresystmFilteredVolcanoes = useMemo(() => {
+    return exploresystmVolcanoes.filter(exploresystmVolcano => {
+      const exploresystmMatchesStatus =
+        exploresystmSelectedFilter === 'all' ||
+        exploresystmVolcano.status === exploresystmSelectedFilter;
+      const exploresystmMatchesSearch = exploresystmVolcano.name
         .toLowerCase()
-        .includes(volcLertSearchValue.trim().toLowerCase());
-      return volcLertMatchesStatus && volcLertMatchesSearch;
+        .includes(exploresystmSearchValue.trim().toLowerCase());
+      return exploresystmMatchesStatus && exploresystmMatchesSearch;
     });
-  }, [volcLertSearchValue, volcLertSelectedFilter]);
+  }, [exploresystmSearchValue, exploresystmSelectedFilter]);
 
-  const volcLertHandleBack = () => {
+  const exploresystmHandleBack = () => {
     navigation.goBack();
   };
 
-  const volcLertHandleToggleFilter = () => {
-    setVolcLertIsFilterOpen(volcLertPrevState => !volcLertPrevState);
+  const exploresystmHandleToggleFilter = () => {
+    setVolcLertIsFilterOpen(exploresystmPrevState => !exploresystmPrevState);
   };
 
-  const volcLertHandleSelectFilter = (volcLertFilter: volcLertFilterStatus) => {
-    setVolcLertSelectedFilter(volcLertFilter);
+  const exploresystmHandleSelectFilter = (exploresystmFilter: exploresystmFilterStatus) => {
+    setVolcLertSelectedFilter(exploresystmFilter);
     setVolcLertIsFilterOpen(false);
   };
 
-  const volcLertHandleOpenSettings = () => {
-    navigation.navigate('Volclertsysettngs' as never);
+  const exploresystmHandleOpenSettings = () => {
+    navigation.navigate('Exploresystmsysettngs' as never);
   };
 
-  const volcLertHandleOpenVolcanoDetails = (
-    volcLertVolcano: volcLertVolcanoType,
+  const exploresystmHandleOpenVolcanoDetails = (
+    exploresystmVolcano: exploresystmVolcanoType,
   ) => {
     navigation.navigate(
-      'Volclertsystdet' as never,
-      { volcLertVolcano } as never,
+      'Exploresystmsystdet' as never,
+      { exploresystmVolcano } as never,
     );
   };
 
   return (
-    <Volclertsystlay>
-      <View style={styles.volcLertContainer}>
-        <View style={styles.volcLertTopBar}>
+    <Exploresystmsystlay>
+      <View style={styles.exploresystmContainer}>
+        <View style={styles.exploresystmTopBar}>
           <TouchableOpacity
-            style={styles.volcLertTopIconButton}
-            onPress={volcLertHandleBack}
+            style={styles.exploresystmTopIconButton}
+            onPress={exploresystmHandleBack}
             activeOpacity={0.8}
           >
-            <Text style={styles.volcLertBackIcon}>↩</Text>
+            <Text style={styles.exploresystmBackIcon}>↩</Text>
           </TouchableOpacity>
 
-          <View style={styles.volcLertTopRightActions}>
+          <View style={styles.exploresystmTopRightActions}>
             <TouchableOpacity
-              style={styles.volcLertTopSmallRoundButton}
-              onPress={volcLertHandleToggleFilter}
+              style={styles.exploresystmTopSmallRoundButton}
+              onPress={exploresystmHandleToggleFilter}
               activeOpacity={0.8}
             >
-              <Text style={styles.volcLertFilterIcon}>☰</Text>
+              <Text style={styles.exploresystmFilterIcon}>☰</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={volcLertHandleOpenSettings} activeOpacity={0.8}>
+            <TouchableOpacity onPress={exploresystmHandleOpenSettings} activeOpacity={0.8}>
               <Image source={require('../../elements/images/volclertsysett.png')} />
             </TouchableOpacity>
           </View>
         </View>
 
-        {volcLertIsFilterOpen && (
-          <View style={styles.volcLertFilterMenu}>
-            {volcLertFilterOptions.map(volcLertOption => (
+        {exploresystmIsFilterOpen && (
+          <View style={styles.exploresystmFilterMenu}>
+            {exploresystmFilterOptions.map(exploresystmOption => (
               <TouchableOpacity
-                key={volcLertOption.id}
-                style={styles.volcLertFilterMenuItem}
+                key={exploresystmOption.id}
+                style={styles.exploresystmFilterMenuItem}
                 activeOpacity={0.85}
-                onPress={() => volcLertHandleSelectFilter(volcLertOption.id)}
+                onPress={() => exploresystmHandleSelectFilter(exploresystmOption.id)}
               >
-                <Text style={styles.volcLertFilterMenuItemText}>
-                  {volcLertOption.label}
+                <Text style={styles.exploresystmFilterMenuItemText}>
+                  {exploresystmOption.label}
                 </Text>
               </TouchableOpacity>
             ))}
           </View>
         )}
 
-        <View style={styles.volcLertSearchWrap}>
-          <Text style={styles.volcLertSearchIcon}>⌕</Text>
+        <View style={styles.exploresystmSearchWrap}>
+          <Text style={styles.exploresystmSearchIcon}>⌕</Text>
           <TextInput
-            value={volcLertSearchValue}
+            value={exploresystmSearchValue}
             onChangeText={setVolcLertSearchValue}
             placeholder="Find a volcano by name"
             placeholderTextColor="#E8D8CEB0"
-            style={styles.volcLertSearchInput}
+            style={styles.exploresystmSearchInput}
           />
         </View>
 
-        <Text style={styles.volcLertSectionTitle}>
-          {volcLertFilterTitles[volcLertSelectedFilter]}
+        <Text style={styles.exploresystmSectionTitle}>
+          {exploresystmFilterTitles[exploresystmSelectedFilter]}
         </Text>
 
-        {volcLertFilteredVolcanoes.length === 0 ? (
-          <View style={styles.volcLertEmptyWrap}>
-            <Text style={styles.volcLertEmptyText}>No volcanoes found.</Text>
+        {exploresystmFilteredVolcanoes.length === 0 ? (
+          <View style={styles.exploresystmEmptyWrap}>
+            <Text style={styles.exploresystmEmptyText}>No volcanoes found.</Text>
           </View>
         ) : (
-          volcLertFilteredVolcanoes.map(volcLertVolcano => (
+          exploresystmFilteredVolcanoes.map(exploresystmVolcano => (
             <TouchableOpacity
-              key={volcLertVolcano.id}
+              key={exploresystmVolcano.id}
               activeOpacity={0.9}
-              onPress={() => volcLertHandleOpenVolcanoDetails(volcLertVolcano)}
-              style={styles.volcLertCardWrap}
+              onPress={() => exploresystmHandleOpenVolcanoDetails(exploresystmVolcano)}
+              style={styles.exploresystmCardWrap}
             >
               <LinearGradient
                 colors={['#612F47', '#8A3844', '#B13D2F']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={styles.volcLertCard}
+                style={styles.exploresystmCard}
               >
-                <Text style={styles.volcLertCardTitle}>{volcLertVolcano.name}</Text>
+                <Text style={styles.exploresystmCardTitle}>{exploresystmVolcano.name}</Text>
 
                 <Image
-                  source={volcLertVolcano.image}
-                  style={styles.volcLertCardImage}
+                  source={exploresystmVolcano.image}
+                  style={styles.exploresystmCardImage}
                   resizeMode="cover"
                 />
 
-                <View style={styles.volcLertCardInfoWrap}>
-                  <Text style={styles.volcLertCardInfoText}>
-                    <Text style={styles.volcLertCardInfoBold}>Location: </Text>
-                    {volcLertVolcano.location}
+                <View style={styles.exploresystmCardInfoWrap}>
+                  <Text style={styles.exploresystmCardInfoText}>
+                    <Text style={styles.exploresystmCardInfoBold}>Location: </Text>
+                    {exploresystmVolcano.location}
                   </Text>
-                  <Text style={styles.volcLertCardInfoText}>
-                    <Text style={styles.volcLertCardInfoBold}>Height: </Text>
-                    {volcLertVolcano.height}
+                  <Text style={styles.exploresystmCardInfoText}>
+                    <Text style={styles.exploresystmCardInfoBold}>Height: </Text>
+                    {exploresystmVolcano.height}
                   </Text>
                 </View>
               </LinearGradient>
@@ -872,41 +886,41 @@ const Volclertsystlist = () => {
           ))
         )}
       </View>
-    </Volclertsystlay>
+    </Exploresystmsystlay>
   );
 };
 
-export default Volclertsystlist;
+export default Exploresystmsystlist;
 
 const styles = StyleSheet.create({
-  volcLertContainer: {
+  exploresystmContainer: {
     flex: 1,
     paddingTop: 50,
     paddingBottom: 40,
     paddingHorizontal: 22,
   },
-  volcLertTopBar: {
+  exploresystmTopBar: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  volcLertTopIconButton: {
+  exploresystmTopIconButton: {
     minWidth: 36,
     minHeight: 36,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertBackIcon: {
+  exploresystmBackIcon: {
     fontSize: 34,
     color: '#FF8E3A',
     fontWeight: '700',
   },
-  volcLertTopRightActions: {
+  exploresystmTopRightActions: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 16,
   },
-  volcLertTopSmallRoundButton: {
+  exploresystmTopSmallRoundButton: {
     width: 36,
     height: 36,
     borderRadius: 18,
@@ -914,12 +928,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertFilterIcon: {
+  exploresystmFilterIcon: {
     color: '#fff',
     fontSize: 20,
     fontWeight: '700',
   },
-  volcLertFilterMenu: {
+  exploresystmFilterMenu: {
     position: 'absolute',
     top: 86,
     right: 72,
@@ -929,19 +943,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#D4572E',
     zIndex: 10,
   },
-  volcLertFilterMenuItem: {
+  exploresystmFilterMenuItem: {
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255,255,255,0.15)',
   },
-  volcLertFilterMenuItemText: {
+  exploresystmFilterMenuItemText: {
     color: '#fff',
     fontSize: 16,
     lineHeight: 20,
     fontWeight: '500',
   },
-  volcLertSearchWrap: {
+  exploresystmSearchWrap: {
     marginTop: 18,
     minHeight: 52,
     borderRadius: 26,
@@ -953,60 +967,60 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     gap: 10,
   },
-  volcLertSearchIcon: {
+  exploresystmSearchIcon: {
     color: '#fff',
     fontSize: 20,
   },
-  volcLertSearchInput: {
+  exploresystmSearchInput: {
     flex: 1,
     color: '#fff',
     fontSize: 16,
     paddingVertical: 8,
   },
-  volcLertSectionTitle: {
+  exploresystmSectionTitle: {
     marginTop: 16,
     color: '#fff',
     fontSize: 23,
     fontWeight: '700',
   },
-  volcLertEmptyWrap: {
+  exploresystmEmptyWrap: {
     marginTop: 24,
     alignItems: 'center',
   },
-  volcLertEmptyText: {
+  exploresystmEmptyText: {
     color: '#fff',
     fontSize: 16,
   },
-  volcLertCardWrap: {
+  exploresystmCardWrap: {
     marginTop: 14,
   },
-  volcLertCard: {
+  exploresystmCard: {
     borderRadius: 24,
     padding: 10,
     overflow: 'hidden',
   },
-  volcLertCardTitle: {
+  exploresystmCardTitle: {
     color: '#fff',
     textAlign: 'center',
     fontSize: 18,
     fontWeight: '700',
     marginVertical: 8,
   },
-  volcLertCardImage: {
+  exploresystmCardImage: {
     width: '100%',
     height: 190,
   },
-  volcLertCardInfoWrap: {
+  exploresystmCardInfoWrap: {
     marginTop: 10,
     marginBottom: 4,
   },
-  volcLertCardInfoText: {
+  exploresystmCardInfoText: {
     color: '#F4E6DC',
     fontSize: 28,
     lineHeight: 28,
     marginTop: 2,
   },
-  volcLertCardInfoBold: {
+  exploresystmCardInfoBold: {
     color: '#fff',
     fontWeight: '700',
   },
@@ -1025,15 +1039,15 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-import Volclertsystlay from '../Volclertsystemcmpnt/Volclertsystlay';
+import Exploresystmsystlay from '../Exploresystmsystemcmpnt/Exploresystmsystlay';
 
-type volcLertVolcanoStatus = 'active' | 'dormant' | 'extinct';
-type volcLertFilterStatus = volcLertVolcanoStatus | 'all';
+type exploresystmVolcanoStatus = 'active' | 'dormant' | 'extinct';
+type exploresystmFilterStatus = exploresystmVolcanoStatus | 'all';
 
-type volcLertVolcanoType = {
+type exploresystmVolcanoType = {
   id: string;
   name: string;
-  status: volcLertVolcanoStatus;
+  status: exploresystmVolcanoStatus;
   location: string;
   coordinates: string;
   height: string;
@@ -1041,7 +1055,7 @@ type volcLertVolcanoType = {
   image: number;
 };
 
-const volcLertVolcanoes: volcLertVolcanoType[] = [
+const exploresystmVolcanoes: exploresystmVolcanoType[] = [
   {
     id: 'etna',
     name: 'Mount Etna',
@@ -1143,109 +1157,109 @@ const volcLertVolcanoes: volcLertVolcanoType[] = [
   },
 ];
 
-const volcLertFilterOptions: { id: volcLertFilterStatus; label: string }[] = [
+const exploresystmFilterOptions: { id: exploresystmFilterStatus; label: string }[] = [
   { id: 'active', label: 'Active Volcanoes' },
   { id: 'dormant', label: 'Dormant Volcanoes' },
   { id: 'extinct', label: 'Extinct Volcanoes' },
   { id: 'all', label: 'All' },
 ];
 
-const volcLertFilterTitles: Record<volcLertFilterStatus, string> = {
+const exploresystmFilterTitles: Record<exploresystmFilterStatus, string> = {
   active: '🌋 Active Volcanoes',
   dormant: '🌋 Dormant Volcanoes',
   extinct: '🌋 Extinct Volcanoes',
   all: '🌋 All Volcanoes',
 };
 
-const Volclertsystlist = () => {
+const Exploresystmsystlist = () => {
   const navigation = useNavigation();
-  const [volcLertSearchValue, setVolcLertSearchValue] = useState('');
-  const [volcLertSelectedFilter, setVolcLertSelectedFilter] =
-    useState<volcLertFilterStatus>('all');
-  const [volcLertIsFilterOpen, setVolcLertIsFilterOpen] = useState(false);
-  const [volcLertExpandedVolcanoId, setVolcLertExpandedVolcanoId] = useState<
+  const [exploresystmSearchValue, setVolcLertSearchValue] = useState('');
+  const [exploresystmSelectedFilter, setVolcLertSelectedFilter] =
+    useState<exploresystmFilterStatus>('all');
+  const [exploresystmIsFilterOpen, setVolcLertIsFilterOpen] = useState(false);
+  const [exploresystmExpandedVolcanoId, setVolcLertExpandedVolcanoId] = useState<
     string | null
   >(null);
 
-  const volcLertFilteredVolcanoes = useMemo(() => {
-    return volcLertVolcanoes.filter(volcLertVolcano => {
-      const volcLertMatchesStatus =
-        volcLertSelectedFilter === 'all' ||
-        volcLertVolcano.status === volcLertSelectedFilter;
-      const volcLertMatchesSearch = volcLertVolcano.name
+  const exploresystmFilteredVolcanoes = useMemo(() => {
+    return exploresystmVolcanoes.filter(exploresystmVolcano => {
+      const exploresystmMatchesStatus =
+        exploresystmSelectedFilter === 'all' ||
+        exploresystmVolcano.status === exploresystmSelectedFilter;
+      const exploresystmMatchesSearch = exploresystmVolcano.name
         .toLowerCase()
-        .includes(volcLertSearchValue.trim().toLowerCase());
-      return volcLertMatchesStatus && volcLertMatchesSearch;
+        .includes(exploresystmSearchValue.trim().toLowerCase());
+      return exploresystmMatchesStatus && exploresystmMatchesSearch;
     });
-  }, [volcLertSearchValue, volcLertSelectedFilter]);
+  }, [exploresystmSearchValue, exploresystmSelectedFilter]);
 
-  const volcLertHandleBack = () => {
+  const exploresystmHandleBack = () => {
     navigation.goBack();
   };
 
-  const volcLertHandleToggleFilter = () => {
-    setVolcLertIsFilterOpen(volcLertPrevState => !volcLertPrevState);
+  const exploresystmHandleToggleFilter = () => {
+    setVolcLertIsFilterOpen(exploresystmPrevState => !exploresystmPrevState);
   };
 
-  const volcLertHandleSelectFilter = (volcLertFilter: volcLertFilterStatus) => {
-    setVolcLertSelectedFilter(volcLertFilter);
+  const exploresystmHandleSelectFilter = (exploresystmFilter: exploresystmFilterStatus) => {
+    setVolcLertSelectedFilter(exploresystmFilter);
     setVolcLertIsFilterOpen(false);
     setVolcLertExpandedVolcanoId(null);
   };
 
-  const volcLertHandleOpenSettings = () => {
-    navigation.navigate('Volclertsysettngs' as never);
+  const exploresystmHandleOpenSettings = () => {
+    navigation.navigate('Exploresystmsysettngs' as never);
   };
 
-  const volcLertHandleCardPress = (volcLertVolcanoId: string) => {
-    setVolcLertExpandedVolcanoId(volcLertPrevId =>
-      volcLertPrevId === volcLertVolcanoId ? null : volcLertVolcanoId,
+  const exploresystmHandleCardPress = (exploresystmVolcanoId: string) => {
+    setVolcLertExpandedVolcanoId(exploresystmPrevId =>
+      exploresystmPrevId === exploresystmVolcanoId ? null : exploresystmVolcanoId,
     );
   };
 
-  const volcLertHandleOpenMap = (volcLertVolcano: volcLertVolcanoType) => {
-    const volcLertMapQuery = encodeURIComponent(
-      `${volcLertVolcano.name} ${volcLertVolcano.coordinates}`,
+  const exploresystmHandleOpenMap = (exploresystmVolcano: exploresystmVolcanoType) => {
+    const exploresystmMapQuery = encodeURIComponent(
+      `${exploresystmVolcano.name} ${exploresystmVolcano.coordinates}`,
     );
-    const volcLertMapUrl = `https://www.google.com/maps/search/?api=1&query=${volcLertMapQuery}`;
+    const exploresystmMapUrl = `https://www.google.com/maps/search/?api=1&query=${exploresystmMapQuery}`;
 
-    Linking.openURL(volcLertMapUrl).catch(() => {
+    Linking.openURL(exploresystmMapUrl).catch(() => {
       Alert.alert('Error', 'Could not open map.');
     });
   };
 
-  const volcLertHandleShare = (volcLertVolcano: volcLertVolcanoType) => {
+  const exploresystmHandleShare = (exploresystmVolcano: exploresystmVolcanoType) => {
     Share.share({
-      title: volcLertVolcano.name,
-      message: `${volcLertVolcano.name}\nLocation: ${volcLertVolcano.location}\nCoordinates: ${volcLertVolcano.coordinates}\nHeight: ${volcLertVolcano.height}\n\n${volcLertVolcano.description}`,
+      title: exploresystmVolcano.name,
+      message: `${exploresystmVolcano.name}\nLocation: ${exploresystmVolcano.location}\nCoordinates: ${exploresystmVolcano.coordinates}\nHeight: ${exploresystmVolcano.height}\n\n${exploresystmVolcano.description}`,
     }).catch(() => {
       Alert.alert('Error', 'Could not open share dialog.');
     });
   };
 
   return (
-    <Volclertsystlay>
-      <View style={styles.volcLertContainer}>
-        <View style={styles.volcLertTopBar}>
+    <Exploresystmsystlay>
+      <View style={styles.exploresystmContainer}>
+        <View style={styles.exploresystmTopBar}>
           <TouchableOpacity
-            style={styles.volcLertTopIconButton}
-            onPress={volcLertHandleBack}
+            style={styles.exploresystmTopIconButton}
+            onPress={exploresystmHandleBack}
             activeOpacity={0.8}
           >
-            <Text style={styles.volcLertBackIcon}>↩</Text>
+            <Text style={styles.exploresystmBackIcon}>↩</Text>
           </TouchableOpacity>
 
-          <View style={styles.volcLertTopRightActions}>
+          <View style={styles.exploresystmTopRightActions}>
             <TouchableOpacity
-              style={styles.volcLertTopSmallRoundButton}
-              onPress={volcLertHandleToggleFilter}
+              style={styles.exploresystmTopSmallRoundButton}
+              onPress={exploresystmHandleToggleFilter}
               activeOpacity={0.8}
             >
-              <Text style={styles.volcLertFilterIcon}>☰</Text>
+              <Text style={styles.exploresystmFilterIcon}>☰</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={volcLertHandleOpenSettings}
+              onPress={exploresystmHandleOpenSettings}
               activeOpacity={0.8}
             >
               <Image
@@ -1255,100 +1269,100 @@ const Volclertsystlist = () => {
           </View>
         </View>
 
-        {volcLertIsFilterOpen && (
-          <View style={styles.volcLertFilterMenu}>
-            {volcLertFilterOptions.map(volcLertOption => (
+        {exploresystmIsFilterOpen && (
+          <View style={styles.exploresystmFilterMenu}>
+            {exploresystmFilterOptions.map(exploresystmOption => (
               <TouchableOpacity
-                key={volcLertOption.id}
-                style={styles.volcLertFilterMenuItem}
+                key={exploresystmOption.id}
+                style={styles.exploresystmFilterMenuItem}
                 activeOpacity={0.85}
-                onPress={() => volcLertHandleSelectFilter(volcLertOption.id)}
+                onPress={() => exploresystmHandleSelectFilter(exploresystmOption.id)}
               >
-                <Text style={styles.volcLertFilterMenuItemText}>
-                  {volcLertOption.label}
+                <Text style={styles.exploresystmFilterMenuItemText}>
+                  {exploresystmOption.label}
                 </Text>
               </TouchableOpacity>
             ))}
           </View>
         )}
 
-        <View style={styles.volcLertSearchWrap}>
-          <Text style={styles.volcLertSearchIcon}>⌕</Text>
+        <View style={styles.exploresystmSearchWrap}>
+          <Text style={styles.exploresystmSearchIcon}>⌕</Text>
           <TextInput
-            value={volcLertSearchValue}
+            value={exploresystmSearchValue}
             onChangeText={setVolcLertSearchValue}
             placeholder="Find a volcano by name"
             placeholderTextColor="#E8D8CEB0"
-            style={styles.volcLertSearchInput}
+            style={styles.exploresystmSearchInput}
           />
         </View>
 
-        <Text style={styles.volcLertSectionTitle}>
-          {volcLertFilterTitles[volcLertSelectedFilter]}
+        <Text style={styles.exploresystmSectionTitle}>
+          {exploresystmFilterTitles[exploresystmSelectedFilter]}
         </Text>
 
-        {volcLertFilteredVolcanoes.length === 0 ? (
-          <View style={styles.volcLertEmptyWrap}>
-            <Text style={styles.volcLertEmptyText}>No volcanoes found.</Text>
+        {exploresystmFilteredVolcanoes.length === 0 ? (
+          <View style={styles.exploresystmEmptyWrap}>
+            <Text style={styles.exploresystmEmptyText}>No volcanoes found.</Text>
           </View>
         ) : (
-          volcLertFilteredVolcanoes.map(volcLertVolcano => {
-            const volcLertIsExpanded =
-              volcLertExpandedVolcanoId === volcLertVolcano.id;
+          exploresystmFilteredVolcanoes.map(exploresystmVolcano => {
+            const exploresystmIsExpanded =
+              exploresystmExpandedVolcanoId === exploresystmVolcano.id;
 
             return (
               <TouchableOpacity
-                key={volcLertVolcano.id}
+                key={exploresystmVolcano.id}
                 activeOpacity={0.9}
-                onPress={() => volcLertHandleCardPress(volcLertVolcano.id)}
-                style={styles.volcLertCardWrap}
+                onPress={() => exploresystmHandleCardPress(exploresystmVolcano.id)}
+                style={styles.exploresystmCardWrap}
               >
                 <LinearGradient
                   colors={['#612F47', '#8A3844', '#B13D2F']}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
-                  style={styles.volcLertCard}
+                  style={styles.exploresystmCard}
                 >
-                  <Text style={styles.volcLertCardTitle}>
-                    {volcLertVolcano.name}
+                  <Text style={styles.exploresystmCardTitle}>
+                    {exploresystmVolcano.name}
                   </Text>
 
                   <Image
-                    source={volcLertVolcano.image}
-                    style={styles.volcLertCardImage}
+                    source={exploresystmVolcano.image}
+                    style={styles.exploresystmCardImage}
                     resizeMode="cover"
                   />
 
-                  {!volcLertIsExpanded ? (
-                    <View style={styles.volcLertCardInfoWrap}>
-                      <Text style={styles.volcLertCardInfoText}>
-                        <Text style={styles.volcLertCardInfoBold}>
+                  {!exploresystmIsExpanded ? (
+                    <View style={styles.exploresystmCardInfoWrap}>
+                      <Text style={styles.exploresystmCardInfoText}>
+                        <Text style={styles.exploresystmCardInfoBold}>
                           Location:{' '}
                         </Text>
-                        {volcLertVolcano.location}
+                        {exploresystmVolcano.location}
                       </Text>
-                      <Text style={styles.volcLertCardInfoText}>
-                        <Text style={styles.volcLertCardInfoBold}>
+                      <Text style={styles.exploresystmCardInfoText}>
+                        <Text style={styles.exploresystmCardInfoBold}>
                           Height:{' '}
                         </Text>
-                        {volcLertVolcano.height}
+                        {exploresystmVolcano.height}
                       </Text>
                     </View>
                   ) : (
-                    <View style={styles.volcLertCardExpanded}>
-                      <View style={styles.volcLertCardButtonsRow}>
+                    <View style={styles.exploresystmCardExpanded}>
+                      <View style={styles.exploresystmCardButtonsRow}>
                         <TouchableOpacity
-                          style={styles.volcLertOpenMapButtonWrap}
+                          style={styles.exploresystmOpenMapButtonWrap}
                           activeOpacity={0.85}
-                          onPress={() => volcLertHandleOpenMap(volcLertVolcano)}
+                          onPress={() => exploresystmHandleOpenMap(exploresystmVolcano)}
                         >
                           <LinearGradient
                             colors={['#CF4E27', '#ED7635']}
                             start={{ x: 0, y: 0 }}
                             end={{ x: 1, y: 0 }}
-                            style={styles.volcLertOpenMapButton}
+                            style={styles.exploresystmOpenMapButton}
                           >
-                            <Text style={styles.volcLertOpenMapButtonText}>
+                            <Text style={styles.exploresystmOpenMapButtonText}>
                               Open map
                             </Text>
                             <Image
@@ -1358,9 +1372,9 @@ const Volclertsystlist = () => {
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                          style={styles.volcLertShareRoundButton}
+                          style={styles.exploresystmShareRoundButton}
                           activeOpacity={0.85}
-                          onPress={() => volcLertHandleShare(volcLertVolcano)}
+                          onPress={() => exploresystmHandleShare(exploresystmVolcano)}
                         >
                           <Image
                             source={require('../../elements/images/volclertsyoshre.png')}
@@ -1368,34 +1382,34 @@ const Volclertsystlist = () => {
                         </TouchableOpacity>
                       </View>
 
-                      <Text style={styles.volcLertCardInfoText}>
-                        <Text style={styles.volcLertCardInfoBold}>
+                      <Text style={styles.exploresystmCardInfoText}>
+                        <Text style={styles.exploresystmCardInfoBold}>
                           Location:{' '}
                         </Text>
-                        {volcLertVolcano.location}
+                        {exploresystmVolcano.location}
                       </Text>
-                      <Text style={styles.volcLertCardInfoText}>
-                        <Text style={styles.volcLertCardInfoBold}>
+                      <Text style={styles.exploresystmCardInfoText}>
+                        <Text style={styles.exploresystmCardInfoBold}>
                           Coordinates:{' '}
                         </Text>
-                        {volcLertVolcano.coordinates}
+                        {exploresystmVolcano.coordinates}
                       </Text>
-                      <Text style={styles.volcLertCardInfoText}>
-                        <Text style={styles.volcLertCardInfoBold}>
+                      <Text style={styles.exploresystmCardInfoText}>
+                        <Text style={styles.exploresystmCardInfoBold}>
                           Height:{' '}
                         </Text>
-                        {volcLertVolcano.height}
+                        {exploresystmVolcano.height}
                       </Text>
-                      <Text style={styles.volcLertCardInfoText}>
-                        <Text style={styles.volcLertCardInfoBold}>
+                      <Text style={styles.exploresystmCardInfoText}>
+                        <Text style={styles.exploresystmCardInfoBold}>
                           Description:{' '}
                         </Text>
-                        {volcLertVolcano.description}
+                        {exploresystmVolcano.description}
                       </Text>
 
                       <Image
-                        source={volcLertVolcano.image}
-                        style={styles.volcLertCardMapPreview}
+                        source={exploresystmVolcano.image}
+                        style={styles.exploresystmCardMapPreview}
                         resizeMode="cover"
                       />
                     </View>
@@ -1406,41 +1420,41 @@ const Volclertsystlist = () => {
           })
         )}
       </View>
-    </Volclertsystlay>
+    </Exploresystmsystlay>
   );
 };
 
-export default Volclertsystlist;
+export default Exploresystmsystlist;
 
 const styles = StyleSheet.create({
-  volcLertContainer: {
+  exploresystmContainer: {
     flex: 1,
     paddingTop: 50,
     paddingBottom: 40,
     paddingHorizontal: 22,
   },
-  volcLertTopBar: {
+  exploresystmTopBar: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  volcLertTopIconButton: {
+  exploresystmTopIconButton: {
     minWidth: 36,
     minHeight: 36,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertBackIcon: {
+  exploresystmBackIcon: {
     fontSize: 34,
     color: '#FF8E3A',
     fontWeight: '700',
   },
-  volcLertTopRightActions: {
+  exploresystmTopRightActions: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 16,
   },
-  volcLertTopSmallRoundButton: {
+  exploresystmTopSmallRoundButton: {
     width: 36,
     height: 36,
     borderRadius: 18,
@@ -1448,12 +1462,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  volcLertFilterIcon: {
+  exploresystmFilterIcon: {
     color: '#fff',
     fontSize: 20,
     fontWeight: '700',
   },
-  volcLertFilterMenu: {
+  exploresystmFilterMenu: {
     position: 'absolute',
     top: 86,
     right: 72,
@@ -1463,19 +1477,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#D4572E',
     zIndex: 10,
   },
-  volcLertFilterMenuItem: {
+  exploresystmFilterMenuItem: {
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255,255,255,0.15)',
   },
-  volcLertFilterMenuItemText: {
+  exploresystmFilterMenuItemText: {
     color: '#fff',
     fontSize: 24,
     lineHeight: 24,
     fontWeight: '500',
   },
-  volcLertSearchWrap: {
+  exploresystmSearchWrap: {
     marginTop: 18,
     minHeight: 52,
     borderRadius: 26,
@@ -1487,77 +1501,77 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     gap: 10,
   },
-  volcLertSearchIcon: {
+  exploresystmSearchIcon: {
     color: '#fff',
     fontSize: 20,
   },
-  volcLertSearchInput: {
+  exploresystmSearchInput: {
     flex: 1,
     color: '#fff',
     fontSize: 16,
     paddingVertical: 8,
   },
-  volcLertSectionTitle: {
+  exploresystmSectionTitle: {
     marginTop: 16,
     color: '#fff',
     fontSize: 23,
     fontWeight: '700',
   },
-  volcLertEmptyWrap: {
+  exploresystmEmptyWrap: {
     marginTop: 24,
     alignItems: 'center',
   },
-  volcLertEmptyText: {
+  exploresystmEmptyText: {
     color: '#fff',
     fontSize: 16,
   },
-  volcLertCardWrap: {
+  exploresystmCardWrap: {
     marginTop: 14,
   },
-  volcLertCard: {
+  exploresystmCard: {
     borderRadius: 24,
     padding: 10,
     overflow: 'hidden',
   },
-  volcLertCardTitle: {
+  exploresystmCardTitle: {
     color: '#fff',
     textAlign: 'center',
     fontSize: 18,
     fontWeight: '700',
     marginVertical: 8,
   },
-  volcLertCardImage: {
+  exploresystmCardImage: {
     width: '100%',
     height: 190,
     borderRadius: 2,
   },
-  volcLertCardInfoWrap: {
+  exploresystmCardInfoWrap: {
     marginTop: 10,
     marginBottom: 4,
   },
-  volcLertCardInfoText: {
+  exploresystmCardInfoText: {
     color: '#F4E6DC',
     fontSize: 28,
     lineHeight: 28,
     marginTop: 2,
   },
-  volcLertCardInfoBold: {
+  exploresystmCardInfoBold: {
     color: '#fff',
     fontWeight: '700',
   },
-  volcLertCardExpanded: {
+  exploresystmCardExpanded: {
     marginTop: 10,
   },
-  volcLertCardButtonsRow: {
+  exploresystmCardButtonsRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
     marginBottom: 10,
   },
-  volcLertOpenMapButtonWrap: {
+  exploresystmOpenMapButtonWrap: {
     flex: 1,
   },
-  volcLertOpenMapButton: {
+  exploresystmOpenMapButton: {
     minHeight: 56,
     borderRadius: 999,
     flexDirection: 'row',
@@ -1565,12 +1579,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
   },
-  volcLertOpenMapButtonText: {
+  exploresystmOpenMapButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '700',
   },
-  volcLertShareRoundButton: {
+  exploresystmShareRoundButton: {
     width: 56,
     height: 56,
     borderRadius: 28,
@@ -1578,7 +1592,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#E26A35',
   },
-  volcLertCardMapPreview: {
+  exploresystmCardMapPreview: {
     marginTop: 12,
     width: '100%',
     height: 250,

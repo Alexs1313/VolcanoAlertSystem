@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
-import { VolcSettingsProvider } from './[lclertsystemSrc]/[lclertsystemstorggee]/volclertsystcntx';
-import Volclertsystemstckk from './[lclertsystemSrc]/lclertsystemrouttes/Volclertsystemstckk';
+import { VolcSettingsProvider } from './Explorresyystm/Explorresyystmstrgg/explorresyystmcontxx';
+import Exploresystmsystemstckk from './Explorresyystm/Explorresyystmroutees/Exploresystmsystemstckk';
 
 const Bassic: React.FC = () => {
   return (
     <NavigationContainer>
       <VolcSettingsProvider>
-        <Volclertsystemstckk />
+        <Exploresystmsystemstckk />
       </VolcSettingsProvider>
     </NavigationContainer>
   );
